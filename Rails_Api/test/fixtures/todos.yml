@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  text: MyString
+  category: MyString
+  due: 2020-12-25 18:28:17
+  completed: false
+
+two:
+  text: MyString
+  category: MyString
+  due: 2020-12-25 18:28:17
+  completed: false
