@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import axios  from 'axios'
 
 const App = () => {
 
-  const [todos, setTodos] = useState([{id : 0, text: 'Learn Typescript'}, {id : 1, text: 'Cook Dinner'}])
+  const [todos, setTodos] = useState([{id: 0, text: ''}])
   const [input, setInput] = useState('')
 
   const handleSubmit = (evt: any) => {
@@ -11,6 +12,13 @@ const App = () => {
     setTodos([...todos, {text: input, id: todos.length - 1}])
     setInput('')
   }
+
+  useEffect(() => {
+    axios.get('/todos').then(resp => {
+      console.log(resp)
+      setTodos(resp.data.data)
+    })
+  }, [])
 
   return (
   <div>
