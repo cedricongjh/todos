@@ -3,8 +3,13 @@ import './App.css';
 
 const App = () => {
 
-  const [todos, setTodos] = useState([{id : 0, text: 'Learn Typescript'}, {id : 1, text: 'Cook Dinner'}])
+  const [todos, setTodos] = useState<Todo[]>([])
   const [input, setInput] = useState('')
+
+  interface Todo {
+    text: string
+    id: number
+  }
 
   const handleSubmit = (evt: any) => {
     evt.preventDefault()
