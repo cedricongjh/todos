@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import axios  from 'axios'
 
 const App = () => {
 
@@ -16,6 +17,13 @@ const App = () => {
     setTodos([...todos, {text: input, id: todos.length - 1}])
     setInput('')
   }
+
+  useEffect(() => {
+    axios.get('/todos').then((resp: any) => {
+      console.log(resp)
+      setTodos(resp.data.data)
+    })
+  }, [])
 
   return (
   <div>
