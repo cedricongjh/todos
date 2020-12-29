@@ -14,8 +14,11 @@ const App = () => {
 
   const handleSubmit = (evt: any) => {
     evt.preventDefault()
-    setTodos([...todos, {text: input, id: todos.length - 1}])
-    setInput('')
+    axios.post('/todos', {'text': input, 'completed': false, 'due': "2020-12-29", 'category': null}).then((resp: any) => {
+      console.log(resp)
+      setTodos([...todos, {text: input, id: todos.length - 1}])
+      setInput('')
+    })
   }
 
   useEffect(() => {
