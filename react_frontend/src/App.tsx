@@ -5,11 +5,11 @@ import axios  from 'axios'
 const App: React.FC = () => {
 
   const [todos, setTodos] = useState<Todo[]>([])
-  const [todo, setTodo] = useState<Todo>({text: '', id: todos.length + 1, category: '', due: '', completed: false})
+  const [todo, setTodo] = useState<Todo>({text: '', category: '', due: '', completed: false})
 
   interface Todo {
     text: string
-    id: number
+    id?: number
     category?: string
     due?: string
     completed: boolean
@@ -17,10 +17,17 @@ const App: React.FC = () => {
 
   const handleSubmit = (evt: any) => {
     evt.preventDefault()
-    axios.post('/todos', {'text': todo.text, 'completed': todo.completed, 'due': todo.due, 'category': todo.category}).then((resp: any) => {
+    axios.post('/todos', {...todo}).then((resp: any) => {
       console.log(resp)
-      setTodos([...todos, todo])
-      setTodo({text: '', id: todos.length + 1, category: '', due: '', completed: false})
+      setTodos([...todos, resp.data.data])
+      setTodo({text: '', category: '', due: '', completed: false})
+    })
+  }
+
+  const handleUpdate = (todo: Todo, checked: Boolean) => {
+    axios.put(`/todos/${todo.id}`, {...todo, completed: checked}).then((resp: any) => {
+      console.log(resp)
+      setTodos(todos.map(ele => ele.id !== todo.id ? ele : resp.data.data))
     })
   }
 
@@ -34,7 +41,10 @@ const App: React.FC = () => {
   return (
   <div>
     <div>TODO CATEGORY DUE</div>
-    {todos.map(todo => <div key={todo.id}>{todo.text} {todo.category} {todo.due}</div>)}
+    {todos.map(todo => <div key={todo.id}>
+      <input type="checkbox" checked={todo.completed} onChange={e => handleUpdate(todo, e.target.checked)}/>
+      {todo.text} {todo.category} {todo.due}
+    </div>)}
     <form onSubmit={handleSubmit}>
       <input type="checkbox" checked={todo.completed} onChange={e => setTodo({...todo, completed: e.target.checked})}/>
       <input placeholder="Enter a todo here" value={todo.text} onChange={e => setTodo({...todo, text: e.target.value})} />
