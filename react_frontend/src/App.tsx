@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import axios  from 'axios'
+import DayPickerInput from 'react-day-picker/DayPickerInput'
+import 'react-day-picker/lib/style.css';
 
 const App: React.FC = () => {
 
@@ -49,7 +51,7 @@ const App: React.FC = () => {
       <input type="checkbox" checked={todo.completed} onChange={e => setTodo({...todo, completed: e.target.checked})}/>
       <input placeholder="Enter a todo here" value={todo.text} onChange={e => setTodo({...todo, text: e.target.value})} />
       <input placeholder="Enter a category here" value={todo.category} onChange={e => setTodo({...todo, category: e.target.value})} />
-      <input placeholder="Enter a due date here" value={todo.due} onChange={e => setTodo({...todo, due: e.target.value})} />
+      <DayPickerInput value={todo.due} format="YYYY-MM-DD" placeholder="Click to select a date" onDayChange={(day: Date) => setTodo({...todo, due: day.toDateString()})}/>
       <button>ADD</button>
     </form>
   </div>
