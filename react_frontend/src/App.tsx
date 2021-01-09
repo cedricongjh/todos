@@ -1,16 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import './App.css';
+import React, { useEffect, useState } from 'react'
+import './App.css'
 import axios  from 'axios'
-import DayPickerInput from 'react-day-picker/DayPickerInput'
-import 'react-day-picker/lib/style.css';
-import CategorySelector from './components/inputs/categorySelector';
+import TodoForm from './components/forms/todoForm'
 
-const App: React.FC = () => {
-
-  const [todos, setTodos] = useState<Todo[]>([])
-  const [todo, setTodo] = useState<Todo>({text: '', category: '', due: '', completed: false})
-  const [categories, setCategories] = useState<Category[]>([])
-
+  // find way to make these passable as params
   interface Todo {
     text: string
     id?: number
@@ -24,12 +17,17 @@ const App: React.FC = () => {
     name: string
   }
 
-  const handleSubmit = (evt: any) => {
+
+const App: React.FC = () => {
+
+  const [todos, setTodos] = useState<Todo[]>([])
+  const [categories, setCategories] = useState<Category[]>([])
+
+  const handleSubmit = (evt: any, payload: Todo) => {
     evt.preventDefault()
-    axios.post('/todos', {...todo}).then((resp: any) => {
+    axios.post('/todos', {...payload}).then((resp: any) => {
       console.log(resp)
       setTodos([...todos, resp.data.data])
-      setTodo({text: '', category: '', due: '', completed: false})
     })
   }
 
@@ -56,13 +54,7 @@ const App: React.FC = () => {
       <input type="checkbox" checked={todo.completed} onChange={e => handleUpdate(todo, e.target.checked)}/>
       {todo.text} {todo.category} {todo.due}
     </div>)}
-    <form onSubmit={handleSubmit}>
-      <input type="checkbox" checked={todo.completed} onChange={e => setTodo({...todo, completed: e.target.checked})}/>
-      <input placeholder="Enter a todo here" value={todo.text} onChange={e => setTodo({...todo, text: e.target.value})} />
-      <CategorySelector options={categories.map(category => {return {value: category.name, label: category.name}})} value={todo.category} handleChange={value => setTodo({...todo, category: value.name})} />
-      <DayPickerInput value={todo.due} format="YYYY-MM-DD" placeholder="Click to select a date" onDayChange={(day: Date) => setTodo({...todo, due: day.toDateString()})}/>
-      <button>ADD</button>
-    </form>
+    <TodoForm handleSubmit={handleSubmit} categories={categories} />
   </div>
   )
 }
