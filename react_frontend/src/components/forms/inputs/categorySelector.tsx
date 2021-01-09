@@ -9,6 +9,7 @@ interface Props {
   options: Array<Object>
   handleChange(value: any):void
   value: String | undefined
+  selected: Object | undefined
 }
 
 export default class CategorySelector extends Component<Props, State> {
@@ -37,7 +38,7 @@ export default class CategorySelector extends Component<Props, State> {
         onChange={this.props.handleChange}
         // onCreateOption={this.handleCreate}
         options={this.props.options}
-        value={this.props.value}
+        value={this.props.selected}
         placeholder="Select a category"
       />
     )

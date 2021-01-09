@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
 import 'react-day-picker/lib/style.css'
-import { getEnabledCategories } from 'trace_events'
 import CategorySelector from './inputs/categorySelector'
 
 interface Todo {
@@ -21,7 +20,10 @@ const TodoForm: React.FC<{handleSubmit: ((event: React.FormEvent<HTMLFormElement
 
     const [todo, setTodo] = useState<Todo>({text: '', category: '', due: '', completed: false})
 
+    const categories = props.categories.map(category => {return {value: category.name, label: category.name}})
+
     return(
+
         <form onSubmit={evt => props.handleSubmit(evt, todo)}>
 
           <input 
@@ -34,10 +36,12 @@ const TodoForm: React.FC<{handleSubmit: ((event: React.FormEvent<HTMLFormElement
             value={todo.text} 
             onChange={e => setTodo({...todo, text: e.target.value})} />
 
+         {/* fix this component issue */}
           <CategorySelector 
-            options={props.categories.map(category => {return {value: category.name, label: category.name}})} 
+            options={categories} 
             value={todo.category}
-            handleChange={value => setTodo({...todo, category: value.name})} />
+            selected={categories.find(category => category.value === todo.category)}
+            handleChange={value => setTodo({...todo, category: value.value})} />
 
           <DayPickerInput 
             value={todo.due} 
