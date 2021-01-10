@@ -11,7 +11,8 @@ const TodoForm: React.FC<{handleSubmit: ((event: React.FormEvent<HTMLFormElement
 
     return(
 
-        <form onSubmit={evt => props.handleSubmit(evt, todo)}>
+        <form onSubmit={async evt => {await props.handleSubmit(evt, todo)
+                                      setTodo({text: '', category: '', due: '', completed: false})}}>
 
           <input 
             type="checkbox" 
@@ -27,7 +28,7 @@ const TodoForm: React.FC<{handleSubmit: ((event: React.FormEvent<HTMLFormElement
           <CategorySelector 
             options={categories} 
             value={todo.category}
-            selected={categories.find(category => category.value === todo.category)}
+            selected={todo.category === '' ? '' :categories.find(category => category.value === todo.category)}
             handleChange={value => setTodo({...todo, category: value.value})} />
 
           <DayPickerInput 
