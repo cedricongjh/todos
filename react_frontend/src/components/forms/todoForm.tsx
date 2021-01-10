@@ -24,12 +24,11 @@ const TodoForm: React.FC<{handleSubmit: ((event: React.FormEvent<HTMLFormElement
             value={todo.text} 
             onChange={e => setTodo({...todo, text: e.target.value})} />
 
-         {/* fix this component issue */}
           <CategorySelector 
             options={categories} 
             value={todo.category}
             selected={todo.category === '' ? '' :categories.find(category => category.value === todo.category)}
-            handleChange={value => setTodo({...todo, category: value.value})} />
+            handleChange={value => value ? setTodo({...todo, category: value.value}) : setTodo({...todo, category: ''})} />
 
           <DayPickerInput 
             value={todo.due} 
