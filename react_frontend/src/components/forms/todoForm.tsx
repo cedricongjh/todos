@@ -3,22 +3,9 @@ import DayPickerInput from 'react-day-picker/DayPickerInput'
 import 'react-day-picker/lib/style.css'
 import CategorySelector from './inputs/categorySelector'
 
-interface Todo {
-    text: string
-    id?: number
-    category?: string
-    due?: string
-    completed: boolean
-}
+const TodoForm: React.FC<{handleSubmit: ((event: React.FormEvent<HTMLFormElement>, payload: any) => void), categories: any[]}> = (props) => {
 
-interface Category {
-    id?: number
-    name: string
-}
-
-const TodoForm: React.FC<{handleSubmit: ((event: React.FormEvent<HTMLFormElement>, payload: Todo) => void), categories: Category[]}> = (props) => {
-
-    const [todo, setTodo] = useState<Todo>({text: '', category: '', due: '', completed: false})
+    const [todo, setTodo] = useState({text: '', category: '', due: '', completed: false})
 
     const categories = props.categories.map(category => {return {value: category.name, label: category.name}})
 
