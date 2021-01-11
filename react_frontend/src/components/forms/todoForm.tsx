@@ -3,9 +3,9 @@ import DayPickerInput from 'react-day-picker/DayPickerInput'
 import 'react-day-picker/lib/style.css'
 import CategorySelector from './inputs/categorySelector'
 
-const TodoForm: React.FC<{handleSubmit: ((payload: any) => void), categories: any[], todo: any, handleUpdate: any, setEdit: any}> =
+const TodoForm: React.FC<{handleSubmit: ((payload: any) => void), handleDelete: ((payload: any) => void), categories: any[], todo: any, handleUpdate: any, setEdit: any}> =
  
-    ({handleSubmit, categories, todo, handleUpdate, setEdit}) => {
+    ({handleSubmit, handleDelete, categories, todo, handleUpdate, setEdit}) => {
 
     const categoryOptions = categories.map((category: any) => {return {value: category.name, label: category.name}})
 
@@ -45,7 +45,9 @@ const TodoForm: React.FC<{handleSubmit: ((payload: any) => void), categories: an
             placeholder="Click to select a date"
             inputProps={{readOnly: true}} 
             onDayChange={(day: Date) => handleUpdate({...todo}, 'due', day.toDateString(), false)}/>
+
           <button>{todo.id ? 'SAVE': 'ADD'}</button>
+          {todo.id ? <button type="button" onClick={() => handleDelete(todo)}>DELETE</button> : <></>}
 
         </form>
     )

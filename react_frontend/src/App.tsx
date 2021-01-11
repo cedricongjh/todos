@@ -47,6 +47,12 @@ const App: React.FC = () => {
     }
   }
 
+  const handleDelete = (todo: Todo) => {
+    axios.delete(`todos/${todo.id}`).then((resp: any) => {
+      setTodos(todos.filter(item => item.id !== todo.id))
+    })
+  }
+
   useEffect(() => {
     axios.get('/todos').then((resp: any) => {
       let todos = resp.data.data
@@ -69,7 +75,8 @@ const App: React.FC = () => {
       todo={todo}
       categories={categories}
       handleUpdate={handleUpdate}
-      handleSubmit={handleSubmit} 
+      handleSubmit={handleSubmit}
+      handleDelete={handleDelete} 
     />)}
   
   </div>
