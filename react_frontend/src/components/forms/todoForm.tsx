@@ -27,7 +27,7 @@ const TodoForm: React.FC<{handleSubmit: ((event: React.FormEvent<HTMLFormElement
             options={categoryOptions} 
             value={todo.category}
             selected={todo.category === '' ? '' :categories.find((category: any) => category.value === todo.category)}
-            handleChange={value => value ? handleUpdate({...todo}, 'category', value, false) : handleUpdate({...todo}, 'category', value, false)} />
+            handleChange={value => value ? handleUpdate({...todo}, 'category', value.value, false) : handleUpdate({...todo}, 'category', '', false)} />
 
           <DayPickerInput 
             value={todo.due} 
