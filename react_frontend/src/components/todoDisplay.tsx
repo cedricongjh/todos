@@ -6,7 +6,7 @@ const TodoDisplay: React.FC<{todo: any, handleUpdate: any}> = ({todo, handleUpda
 
     return (
     <div>
-      <input type="checkbox" checked={todo.completed} onChange={e => handleUpdate(todo, e.target.checked)}/>
+      <input type="checkbox" checked={todo.completed} onChange={e => handleUpdate(todo, 'completed', e.target.checked, true)}/>
       {todo.text} {todo.category} {todo.due}
     </div>)
 

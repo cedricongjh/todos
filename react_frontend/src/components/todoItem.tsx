@@ -9,14 +9,15 @@ const TodoItem: React.FC<{todo: any, handleSubmit: any, handleUpdate: any, categ
     const [edit, setEdit] = useState<Boolean>(false)
 
     useEffect(() => {
-      todo.id ? setEdit(false): setEdit(true)    
+      todo.id ? setEdit(false) : setEdit(true)    
     }, [])
 
     return(
-    <div>
+    <div onClick={() => setEdit(true)}>
     {edit
         ? <TodoForm
-            todo={todo} 
+            todo={todo}
+            setEdit = {setEdit} 
             categories={categories} 
             handleSubmit={handleSubmit}
             handleUpdate={handleUpdate}

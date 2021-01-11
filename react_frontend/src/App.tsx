@@ -22,8 +22,7 @@ const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([])
   const [categories, setCategories] = useState<Category[]>([])
 
-  const handleSubmit = (evt: React.FormEvent<HTMLFormElement>, payload: Todo) => {
-    evt.preventDefault()
+  const handleSubmit = (payload: Todo) => {
     axios.post('/todos', {...payload}).then((resp: any) => {
       setTodos(() => {
         todos.pop()
