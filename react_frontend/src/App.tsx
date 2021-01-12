@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './App.css'
-import axios  from 'axios'
+import axios, { AxiosResponse }  from 'axios'
 import TodoItem from './components/todoItem'
 
 type Todo  = {
@@ -48,8 +48,15 @@ const App: React.FC = () => {
   }
 
   const handleDelete = (todo: Todo) => {
-    axios.delete(`todos/${todo.id}`).then((resp: any) => {
+    axios.delete(`todos/${todo.id}`).then((resp: AxiosResponse<any>) => {
       setTodos(todos.filter(item => item.id !== todo.id))
+    })
+  }
+
+  const handleCreateCategory = (newCategory: string, todo: Todo) => {
+    axios.post('/categories', {name: newCategory}).then((resp: AxiosResponse<any>) => {
+      setCategories([... categories, resp.data.data])
+      handleUpdate(todo, 'category', resp.data.data.name, false)
     })
   }
 
@@ -76,7 +83,8 @@ const App: React.FC = () => {
       categories={categories}
       handleUpdate={handleUpdate}
       handleSubmit={handleSubmit}
-      handleDelete={handleDelete} 
+      handleDelete={handleDelete}
+      createCategory={handleCreateCategory} 
     />)}
   
   </div>

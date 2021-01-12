@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import TodoForm from './forms/todoForm'
 import TodoDisplay from './todoDisplay'
 
-const TodoItem: React.FC<{todo: any, handleSubmit: any, handleUpdate: any, handleDelete: any, categories: any}> = 
+const TodoItem: React.FC<{todo: any, handleSubmit: any, handleUpdate: any, handleDelete: any, createCategory: any, categories: any}> = 
 
-    ({todo, handleSubmit, handleUpdate, handleDelete, categories}) => {
+    ({todo, handleSubmit, handleUpdate, handleDelete, createCategory, categories}) => {
 
     const [edit, setEdit] = useState<Boolean>(false)
 
@@ -22,6 +22,7 @@ const TodoItem: React.FC<{todo: any, handleSubmit: any, handleUpdate: any, handl
             handleSubmit={handleSubmit}
             handleUpdate={handleUpdate}
             handleDelete={handleDelete}
+            createCategory={createCategory}
           /> 
         : <TodoDisplay
             todo={todo}

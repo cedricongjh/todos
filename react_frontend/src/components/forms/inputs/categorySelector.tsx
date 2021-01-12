@@ -8,8 +8,10 @@ interface State {
 interface Props {
   options: Array<Object>
   handleChange(value: any):void
+  createCategory(name: string, todo: any):void
   value: String | undefined
   selected: Object | undefined
+  todo: any
 }
 
 export default class CategorySelector extends Component<Props, State> {
@@ -21,13 +23,13 @@ export default class CategorySelector extends Component<Props, State> {
       isLoading: false
     }
   }
-  // handleCreate = (inputValue: any) => {
-  //   this.setState({ isLoading: true })
-  //   this.setState({
-  //     isLoading: false,
-  //     value: newOption
-  //   })
-  // }
+  
+  handleCreate(newCategory: string) {
+    this.setState({isLoading: true})
+    this.props.createCategory(newCategory, this.props.todo)
+    this.setState({isLoading: false})
+  }
+
   render() {
     const { isLoading } = this.state
     return (
@@ -36,7 +38,7 @@ export default class CategorySelector extends Component<Props, State> {
         isDisabled={isLoading}
         isLoading={isLoading}
         onChange={this.props.handleChange}
-        // onCreateOption={this.handleCreate}
+        onCreateOption={newCategory => this.handleCreate(newCategory)}
         options={this.props.options}
         value={this.props.selected}
         placeholder="Select a category"
