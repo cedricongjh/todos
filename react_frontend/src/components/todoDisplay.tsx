@@ -2,7 +2,7 @@ import React from 'react'
 
 
 
-const TodoDisplay: React.FC<{todo: any, handleUpdate: any}> = ({todo, handleUpdate}) => {
+const TodoDisplay: React.FC<{todo: any, handleUpdate: ((todo: any, property: string, newValue: any, submit: Boolean) => void)}> = ({todo, handleUpdate}) => {
 
     return (
     <div>

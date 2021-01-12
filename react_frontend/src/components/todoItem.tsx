@@ -2,7 +2,13 @@ import React, { useEffect, useState } from 'react'
 import TodoForm from './forms/todoForm'
 import TodoDisplay from './todoDisplay'
 
-const TodoItem: React.FC<{todo: any, handleSubmit: any, handleUpdate: any, handleDelete: any, createCategory: any, categories: any}> = 
+const TodoItem: React.FC<
+  {todo: any, 
+   handleSubmit: ((payload: any) => void), 
+   handleUpdate: ((todo: any, property: string, newValue: any, submit: Boolean) => void), 
+   handleDelete: ((payload: any) => void), 
+   createCategory: ((name: string, todo: any) => void), 
+   categories: any[]}> = 
 
     ({todo, handleSubmit, handleUpdate, handleDelete, createCategory, categories}) => {
 

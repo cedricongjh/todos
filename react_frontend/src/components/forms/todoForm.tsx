@@ -3,7 +3,14 @@ import DayPickerInput from 'react-day-picker/DayPickerInput'
 import 'react-day-picker/lib/style.css'
 import CategorySelector from './inputs/categorySelector'
 
-const TodoForm: React.FC<{handleSubmit: ((payload: any) => void), handleDelete: ((payload: any) => void), createCategory: ((name: string)=> void), categories: any[], todo: any, handleUpdate: any, setEdit: any}> =
+const TodoForm: React.FC<{
+  handleSubmit: ((payload: any) => void), 
+  handleDelete: ((payload: any) => void), 
+  createCategory: ((name: string, todo: any)=> void), 
+  categories: any[], 
+  todo: any, 
+  handleUpdate: ((todo: any, property: string, newValue: any, submit: Boolean) => void), 
+  setEdit: any}> =
  
     ({handleSubmit, handleDelete, createCategory, categories, todo, handleUpdate, setEdit}) => {
 
