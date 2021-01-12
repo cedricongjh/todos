@@ -72,9 +72,14 @@ const App: React.FC = () => {
   }, [])
 
   return (
-  <div>
+  <div className="todo-list">
 
-    <div>TODO CATEGORY DUE</div>
+    <div className="todo-list-row todo-list-headers">
+      <div></div>
+      <div>TODO</div>
+      <div>CATEGORY</div>
+      <div>DUE</div>
+    </div>
   
     {todos.map(todo => 
     <TodoItem

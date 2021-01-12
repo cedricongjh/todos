@@ -28,7 +28,10 @@ const TodoForm: React.FC<{
 
     return(
 
-        <form onSubmit={evt => sumbitForm(evt)}>
+        <form
+          className="todo-list-row" 
+          onSubmit={evt => sumbitForm(evt)}
+        >
 
           <input 
             type="checkbox" 
@@ -54,9 +57,11 @@ const TodoForm: React.FC<{
             placeholder="Click to select a date"
             inputProps={{readOnly: true}} 
             onDayChange={(day: Date) => handleUpdate({...todo}, 'due', day.toDateString(), false)}/>
-
+          
+          <div>
           <button>{todo.id ? 'SAVE': 'ADD'}</button>
           {todo.id ? <button type="button" onClick={() => handleDelete(todo)}>DELETE</button> : <></>}
+          </div>
 
         </form>
     )
