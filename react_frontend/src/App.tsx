@@ -65,9 +65,13 @@ const App: React.FC = () => {
       let todos = resp.data.data
       todos.push({text: '', category: '', due: '', completed: false})
       setTodos(todos)
+    }).catch(err => {
+      setTodos([{text: '', category: '', due: '', completed: false}])
     })
     axios.get('/categories').then((resp: any) => {
       setCategories(resp.data.data)
+    }).catch(err => {
+      setCategories([])
     })
   }, [])
 
