@@ -55,7 +55,7 @@ const App: React.FC = () => {
 
   const handleCreateCategory = (newCategory: string, todo: Todo) => {
     axios.post('/categories', {name: newCategory}).then((resp: AxiosResponse<any>) => {
-      setCategories([... categories, resp.data.data])
+      setCategories([...categories, resp.data.data])
       handleUpdate(todo, 'category', resp.data.data.name, false)
     })
   }
