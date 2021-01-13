@@ -19,11 +19,11 @@ const TodoItem: React.FC<
     }, [])
 
     return(
-    <div onClick={() => setEdit(true)}>
+    <div>
     {edit
         ? <TodoForm
             todo={todo}
-            setEdit = {setEdit} 
+            setEdit={setEdit} 
             categories={categories} 
             handleSubmit={handleSubmit}
             handleUpdate={handleUpdate}
@@ -31,6 +31,7 @@ const TodoItem: React.FC<
             createCategory={createCategory}
           /> 
         : <TodoDisplay
+            setEdit={setEdit}
             todo={todo}
             handleUpdate={handleUpdate} 
           />}
