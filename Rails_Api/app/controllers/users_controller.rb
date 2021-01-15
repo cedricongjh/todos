@@ -11,6 +11,15 @@ class UsersController < ApplicationController
         end
     end
 
+    def index
+        authorised
+        if @user 
+            todos = @user.todos.order('due ASC')
+            categories = @user.categories.all
+            render json: {status: 'SUCCESS', message: 'fetched user data', data: {todos: todos, categories: categories}}, status: :ok
+        end
+    end
+
     def login
         
         @user = User.find_by(email: params[:email])

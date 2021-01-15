@@ -32,7 +32,7 @@ class ApplicationController < ActionController::API
     end
 
     def authorised
-        render json: { message: 'Please log in' }, status: :unauthorized unless logged_in?
+        render json: { status: 'UNAUTHORISED', message: 'Please log in' }, status: :unauthorized unless logged_in?
     end
 
 end
