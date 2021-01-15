@@ -4,7 +4,7 @@ class UsersController < ApplicationController
     def create
         @user = User.create(user_params)
         if @user.save
-            token = encode_JWT({user_id: user.id})
+            token = encode_JWT({user_id: @user.id})
             render json: {status: 'SUCCESS', message: 'user signed up', data: @user, token: token}, status: :ok
         else
             render json: {status: 'ERROR', message: 'failed to sign up', data: @user.errors}, status: :unprocessable_entity
