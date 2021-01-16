@@ -16,7 +16,7 @@ const TodoItem: React.FC<
 
     useEffect(() => {
       todo.id ? setEdit(false) : setEdit(true)    
-    }, [])
+    }, [todo.id])
 
     return(
     <div>
