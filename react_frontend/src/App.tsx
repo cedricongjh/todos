@@ -4,6 +4,7 @@ import './App.css'
 import axios from 'axios'
 import TodoList from './components/todos/todoList'
 import Login from './components/login'
+import Register from './components/register'
 
 const App: React.FC = () => {
 
@@ -32,6 +33,9 @@ const App: React.FC = () => {
         </Route>
         <Route path="/login">
           {loggedIn ? <Redirect to="/" /> : <Login setLoggedIn={setLoggedIn}/>}
+        </Route>
+        <Route path="/register">
+          {loggedIn ? <Redirect to="/" /> : <Register setLoggedIn={setLoggedIn}/>}
         </Route>
       </Switch>
     </Router>

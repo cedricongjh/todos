@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 
 const Login: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>}> 
@@ -24,11 +25,16 @@ const Login: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boolean>
 
     return (
       <div>
+          <div>
           <form onSubmit={handleSubmit}>
-            <input type="text" name="email" value={form.email} onChange={updateForm} />
-            <input type="password" name="password" value={form.password} onChange={updateForm}/>
+            <label htmlFor="email">Email: </label>
+            <input type="text" name="email" placeholder="Enter your email" value={form.email} onChange={updateForm} />
+            <label htmlFor="password">Password: </label>
+            <input type="password" name="password" placeholder="Enter your password" value={form.password} onChange={updateForm}/>
             <button>LOGIN</button>
           </form>
+          </div>
+          <div>Don't have an account? <Link to="/register">Register Here</Link></div>
       </div>    
     )
 }
