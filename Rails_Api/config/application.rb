@@ -13,6 +13,7 @@ module RailsApi
 
     # Configuration for the application, engines, and railties goes here.
     config.api_only = true
+    config.middleware.use ActionDispatch::Cookies
     #
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.

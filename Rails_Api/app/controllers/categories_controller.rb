@@ -1,17 +1,17 @@
 class CategoriesController < ApplicationController
 
     def index
-        categories = Category.all
+        categories = @user.categories.all
         render json: {status: 'SUCCESS', message: 'fetched categories', data: categories}, status: :ok
     end
 
     def show
-        category = Category.find(params[:id])
+        category = @user.categories.find(params[:id])
         render json: {status: 'SUCCESS', message: 'Loaded category', data: category}, status: :ok
     end
 
     def create
-        category = Category.new(category_params)
+        category = @user.categories.new(category_params)
 
         if category.save
             render json: {status: 'SUCCESS', message: 'category saved', data: category}, status: :ok
@@ -21,7 +21,7 @@ class CategoriesController < ApplicationController
     end
 
     def update
-        category = Category.find(params[:id])
+        category = @user.categories.find(params[:id])
         if category.update(category_params)
             render json: {status: 'SUCCESS', message: 'category updated', data: category}, status: :ok
         else
@@ -30,7 +30,7 @@ class CategoriesController < ApplicationController
     end
 
     def destroy
-        category = Category.find(params[:id])
+        category = @user.categories.find(params[:id])
         category.destroy
         render json: {status: 'SUCCESS', message: 'category deleted', data: category}, status: :ok
     end
