@@ -16,7 +16,8 @@ type Category = {
 }
 
 
-const TodoList: React.FC = () => {
+const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>}> = 
+  ({setLoggedIn}) => {
 
   const [todos, setTodos] = useState<Todo[]>([])
   const [categories, setCategories] = useState<Category[]>([])
@@ -59,23 +60,30 @@ const TodoList: React.FC = () => {
     })
   }
 
+  const logout = () => {
+      axios.post('logout').then((resp: AxiosResponse<any>) => {
+        setLoggedIn(false)
+      })
+
+  }
+
   useEffect(() => {
-    axios.get('/todos').then((resp: any) => {
-      let todos = resp.data.data
+    axios.get('/user').then((resp: any) => {
+      let todos = resp.data.data['todos']
       todos.push({text: '', category: '', due: '', completed: false})
       setTodos(todos)
+      let categories = resp.data.data['categories']
+      setCategories(categories)
     }).catch(err => {
+      console.log(err)
       setTodos([{text: '', category: '', due: '', completed: false}])
-    })
-    axios.get('/categories').then((resp: any) => {
-      setCategories(resp.data.data)
-    }).catch(err => {
-      setCategories([])
     })
   }, [])
 
   return (
   <div className="todo-list">
+
+    <div><button onClick={logout}>LOGOUT</button></div>
 
     <div className="todo-list-row todo-list-headers">
       <div></div>
