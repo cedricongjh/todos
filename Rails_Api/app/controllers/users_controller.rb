@@ -37,6 +37,11 @@ class UsersController < ApplicationController
         render json: {status: 'SUCCESS', message: 'user logged in', data: @user}, status: :ok
     end
 
+    def logout
+        cookies.delete :Authorized
+        render json: {status: 'SUCCESS', message: 'user logged out', data: @user}, status: :ok
+    end
+
     private
 
     def user_params
