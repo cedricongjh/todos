@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios, { AxiosResponse }  from 'axios'
 import TodoItem from './todoItem'
 import { Todo, Category } from '../../interfaces/todo.interfaces'
+import TodoControl from './todoControl'
 
 const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>}> = 
   ({setLoggedIn}) => {
@@ -71,6 +72,7 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
   <div className="todo-list">
 
     <div>
+      <TodoControl todos={todos} categories={categories}/>
       <button onClick={logout}>LOGOUT</button>
     </div>
 
