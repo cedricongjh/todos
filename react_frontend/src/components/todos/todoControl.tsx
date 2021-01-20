@@ -1,15 +1,101 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DateRange from './forms/inputs/dateRange'
+import { dateConverter } from '../../utils/dateConverter'
 import MultiCategorySelector from './forms/inputs/multiCategorySelector'
 import { Todo, Category } from '../../interfaces/todo.interfaces'
 
-const TodoControl: React.FC<{todos: Todo[], categories: Category[]}> = 
-    
-    ({todos, categories}) => {
+type optionsForm = {
+  completed: boolean,
+  categories: any[],
+  fromDate: string,
+  toDate: string
+}
 
-    const [options, setOptions] = useState({completed: false, categories: [], fromDate: '', toDate: ''})
+const TodoControl: React.FC<
+    {todos: Todo[], 
+     categories: Category[], 
+     setDisplayedTodos: React.Dispatch<React.SetStateAction<Todo[]>>
+     filter: boolean}
+    > = 
+    
+    ({todos, categories, setDisplayedTodos, filter}) => {
+
+    const [options, setOptions] = useState<optionsForm>({completed: false, categories: [], fromDate: '', toDate: ''})
 
     const categoryOptions = categories.map((category: any) => {return {value: category.name, label: category.name}})
+
+    useEffect(() => {
+
+      let newTodos = todos.filter(todo => {
+        if (!todo.id) {
+          return true
+        }
+      
+        if (options.completed) {
+          if (!todo.completed) {
+            return true
+          } else {
+            return false
+          }
+        } else {
+          return true
+        }
+      })
+
+      newTodos = newTodos.filter(todo => {
+        if (!todo.id) {
+          return true
+        }
+
+        if (options.categories && options.categories.length > 0) {
+          const stringCategories = options.categories.map(category => category.value)
+          if (todo.category && stringCategories.includes(todo.category)) {
+            return true
+          } else {
+            return false
+          }
+        } else {
+          return true
+        }
+      })
+
+      newTodos = newTodos.filter(todo => {
+        if (!todo.id) {
+          return true
+        }
+
+        if (options.toDate || options.fromDate) {
+          if (todo.due) {
+            if (options.toDate && options.fromDate) {
+              if (dateConverter(options.fromDate) <= dateConverter(todo.due) && dateConverter(todo.due) <= dateConverter(options.toDate)) {
+                return true
+              } else {
+                return false
+              }
+            } else if (options.fromDate) {
+              if (dateConverter(options.fromDate) <= dateConverter(todo.due)) {
+                return true
+              } else {
+                return false
+              }
+            } else {
+              if (dateConverter(todo.due) <= dateConverter(options.toDate)) {
+                return true
+              } else {
+                return false
+              }
+            }
+          } else {
+            return false
+          }
+        } else {
+          return true
+        }
+      })
+
+      setDisplayedTodos([...newTodos])
+
+    }, [filter, options.completed, options.categories, options.toDate, options.fromDate, todos, setDisplayedTodos])
 
     return(
       <div>

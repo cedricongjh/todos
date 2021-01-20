@@ -8,6 +8,8 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
   ({setLoggedIn}) => {
 
   const [todos, setTodos] = useState<Todo[]>([])
+  const [displayedTodos, setDisplayedTodos] = useState<Todo[]>([])
+  const [filter, setFilter] = useState(false)
   const [categories, setCategories] = useState<Category[]>([])
 
   const handleSubmit = (payload: Todo) => {
@@ -56,6 +58,11 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
   }
 
   useEffect(() => {
+    setDisplayedTodos([...todos])
+    setFilter(!filter)
+  }, [todos])
+
+  useEffect(() => {
     axios.get('/user').then((resp: any) => {
       let todos = resp.data.data['todos']
       todos.push({text: '', category: '', due: '', completed: false})
@@ -72,7 +79,12 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
   <div className="todo-list">
 
     <div>
-      <TodoControl todos={todos} categories={categories}/>
+       <TodoControl 
+        todos={todos} 
+        categories={categories}
+        filter={filter} 
+        setDisplayedTodos={setDisplayedTodos} />
+
       <button onClick={logout}>LOGOUT</button>
     </div>
 
@@ -83,7 +95,7 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
       <div>DUE</div>
     </div>
   
-    {todos.map(todo => 
+    {displayedTodos.map(todo => 
     <TodoItem
       key={todo.id || ''} 
       todo={todo}

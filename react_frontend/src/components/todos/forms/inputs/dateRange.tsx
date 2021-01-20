@@ -1,5 +1,6 @@
 import React from 'react'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
+import { dateConverter } from '../../../../utils/dateConverter'
 
 // this component was created using react-day-picker, look at their documentation for a detailed API.
 
@@ -37,23 +38,23 @@ const DateRange: React.FC<
     if (toDate === fromDate) {
       return {after: new Date(''), before: new Date('')}
     } else {
-      return {after: new Date(fromDate), before: new Date(toDate)}
+      return {after: dateConverter(fromDate), before: dateConverter(toDate)}
     }
   }
 
   // modifiers for styling
   const selectedModifiers = {
-    highlighted: [new Date(fromDate), new Date(toDate)],
+    highlighted: [dateConverter(fromDate), dateConverter(toDate)],
     range: range()
   }
 
   // to prevent user from selecting dates
   const disabledtoDays = {
-    before: new Date(fromDate)
+    before: dateConverter(fromDate)
   }
 
   const disabledfromDays = {
-    after: new Date(toDate)
+    after: dateConverter(toDate)
   }
 
   return (
