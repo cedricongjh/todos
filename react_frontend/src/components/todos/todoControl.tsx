@@ -8,7 +8,8 @@ type optionsForm = {
   completed: boolean,
   categories: any[],
   fromDate: string,
-  toDate: string
+  toDate: string,
+  searchStr: string
 }
 
 const TodoControl: React.FC<
@@ -20,7 +21,7 @@ const TodoControl: React.FC<
     
     ({todos, categories, setDisplayedTodos, filter}) => {
 
-    const [options, setOptions] = useState<optionsForm>({completed: false, categories: [], fromDate: '', toDate: ''})
+    const [options, setOptions] = useState<optionsForm>({completed: false, categories: [], fromDate: '', toDate: '', searchStr: ''})
 
     const categoryOptions = categories.map((category: any) => {return {value: category.name, label: category.name}})
 
@@ -93,9 +94,25 @@ const TodoControl: React.FC<
         }
       })
 
+      newTodos = newTodos.filter(todo => {
+        if (options.searchStr !== '') {
+          if (todo.id) {
+            if (todo.text.toLowerCase().search(options.searchStr.toLowerCase()) >= 0) {
+              return true
+            } else {
+              return false
+            }
+          } else {
+            return true
+          }
+        } else {
+          return true
+        }
+      })
+
       setDisplayedTodos([...newTodos])
 
-    }, [filter, options.completed, options.categories, options.toDate, options.fromDate, todos, setDisplayedTodos])
+    }, [filter, options.completed, options.categories, options.toDate, options.fromDate, options.searchStr, todos, setDisplayedTodos])
 
     return(
       <div>
@@ -124,6 +141,12 @@ const TodoControl: React.FC<
               format={'YYYY-MM-DD'}
               currentOptions={options}
               setOptions={setOptions} />
+        </div>
+
+        <div>
+          <label>Search</label>
+          <input value={options.searchStr}
+                 onChange={e => setOptions({...options, searchStr: e.target.value})}/>
         </div>
       </div>
     ) 
