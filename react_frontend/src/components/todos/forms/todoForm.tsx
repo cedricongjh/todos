@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
 import 'react-day-picker/lib/style.css'
 import CategorySelector from './inputs/categorySelector'
 import { Todo, Category } from '../../../interfaces/todo.interfaces'
+import { debounce } from 'lodash'
+import axios from 'axios'
 
 const TodoForm: React.FC<{
   handleSubmit: ((payload: any) => void), 
@@ -22,6 +24,15 @@ const TodoForm: React.FC<{
       handleSubmit(todo)
     }
 
+    // using lodash's debounce, delay put request to update current todos
+    const debouncedUpdate = useCallback(debounce(todo => {
+        if (todo.id) {
+          axios.put(`/todos/${todo.id}`, todo).then((resp: any) => {
+            setEdit(false)
+          })
+        }
+    }, 1000), [])
+
     return(
 
         <form
@@ -32,19 +43,22 @@ const TodoForm: React.FC<{
           <input 
             type="checkbox" 
             checked={todo.completed} 
-            onChange={e => handleUpdate({...todo}, 'completed', e.target.checked)}/>
+            onChange={e => {handleUpdate({...todo}, 'completed', e.target.checked) 
+                            debouncedUpdate({...todo, 'completed': e.target.checked})}}/>
 
           <input 
             placeholder="Enter a todo here" 
             value={todo.text} 
-            onChange={e => handleUpdate({...todo}, 'text', e.target.value)} />
+            onChange={e => {handleUpdate({...todo}, 'text', e.target.value)
+                           debouncedUpdate({...todo, 'text': e.target.value})}} />
 
           <CategorySelector 
             options={categoryOptions}
             todo={todo} 
             value={todo.category}
             selected={todo.category ? categoryOptions.find((category: any) => category.value === todo.category) : ''}
-            handleChange={value => value ? handleUpdate({...todo}, 'category', value.value) : handleUpdate({...todo}, 'category', '')}
+            handleChange={value => {if (value) { handleUpdate({...todo}, 'category', value.value); debouncedUpdate({...todo, 'category': value.value}) } 
+                                    else {handleUpdate({...todo}, 'category', ''); debouncedUpdate({...todo, 'category': ''});}}}
             createCategory={createCategory} />
 
           <DayPickerInput 
@@ -52,7 +66,8 @@ const TodoForm: React.FC<{
             format="YYYY-MM-DD" 
             placeholder="Click to select a date"
             inputProps={{readOnly: true}} 
-            onDayChange={(day: Date) => handleUpdate({...todo}, 'due', day.toDateString())}/>
+            onDayChange={(day: Date) => {handleUpdate({...todo}, 'due', day.toDateString())
+                                         debouncedUpdate({...todo, 'due': day.toDateString()})}}/>
           
           <div>
 
