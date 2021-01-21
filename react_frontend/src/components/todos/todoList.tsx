@@ -57,11 +57,13 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
 
   }
 
+  // trigger filtering when todos update
   useEffect(() => {
     setDisplayedTodos([...todos])
     setFilter(!filter)
   }, [todos])
 
+  // fetch user data upon mounting
   useEffect(() => {
     axios.get('/user').then((resp: any) => {
       let todos = resp.data.data['todos']
