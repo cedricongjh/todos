@@ -2,28 +2,24 @@ import React from 'react'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
 import 'react-day-picker/lib/style.css'
 import CategorySelector from './inputs/categorySelector'
+import { Todo, Category } from '../../../interfaces/todo.interfaces'
 
 const TodoForm: React.FC<{
   handleSubmit: ((payload: any) => void), 
   handleDelete: ((payload: any) => void), 
   createCategory: ((name: string, todo: any)=> void), 
-  categories: any[], 
-  todo: any, 
-  handleUpdate: ((todo: any, property: string, newValue: any, submit: Boolean) => void), 
+  categories: Category[], 
+  todo: Todo, 
+  handleUpdate: ((todo: Todo, property: string, newValue: any) => void), 
   setEdit: any}> =
  
     ({handleSubmit, handleDelete, createCategory, categories, todo, handleUpdate, setEdit}) => {
 
     const categoryOptions = categories.map((category: any) => {return {value: category.name, label: category.name}})
 
-    const sumbitForm = async (evt: React.FormEvent<HTMLFormElement>) => {
+    const sumbitForm = (evt: React.FormEvent<HTMLFormElement>) => {
       evt.preventDefault()
-      if (todo.id) {
-        await handleUpdate(todo, 'text',  todo.text, true)
-        setEdit(false)
-      } else {
-        await handleSubmit(todo)
-      }
+      handleSubmit(todo)
     }
 
     return(
@@ -36,19 +32,19 @@ const TodoForm: React.FC<{
           <input 
             type="checkbox" 
             checked={todo.completed} 
-            onChange={e => handleUpdate({...todo}, 'completed', e.target.checked, false)}/>
+            onChange={e => handleUpdate({...todo}, 'completed', e.target.checked)}/>
 
           <input 
             placeholder="Enter a todo here" 
             value={todo.text} 
-            onChange={e => handleUpdate({...todo}, 'text', e.target.value, false)} />
+            onChange={e => handleUpdate({...todo}, 'text', e.target.value)} />
 
           <CategorySelector 
             options={categoryOptions}
             todo={todo} 
             value={todo.category}
             selected={todo.category ? categoryOptions.find((category: any) => category.value === todo.category) : ''}
-            handleChange={value => value ? handleUpdate({...todo}, 'category', value.value, false) : handleUpdate({...todo}, 'category', '', false)}
+            handleChange={value => value ? handleUpdate({...todo}, 'category', value.value) : handleUpdate({...todo}, 'category', '')}
             createCategory={createCategory} />
 
           <DayPickerInput 
@@ -56,11 +52,11 @@ const TodoForm: React.FC<{
             format="YYYY-MM-DD" 
             placeholder="Click to select a date"
             inputProps={{readOnly: true}} 
-            onDayChange={(day: Date) => handleUpdate({...todo}, 'due', day.toDateString(), false)}/>
+            onDayChange={(day: Date) => handleUpdate({...todo}, 'due', day.toDateString())}/>
           
           <div>
-          <button>{todo.id ? 'SAVE': 'ADD'}</button>
-          {todo.id ? <button type="button" onClick={() => handleDelete(todo)}>DELETE</button> : <></>}
+
+          {todo.id ? <button type="button" onClick={() => handleDelete(todo)}>DELETE</button> : <button>SAVE</button>}
           </div>
 
         </form>

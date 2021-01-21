@@ -21,12 +21,7 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
     })
   }
 
-  const handleUpdate = (todo: Todo, property: string, newValue: any, submit: Boolean) => {
-    if (submit) {
-      axios.put(`/todos/${todo.id}`, {...todo, [property]: newValue}).then((resp: any) => {
-        setTodos(todos.map(ele => ele.id !== todo.id ? ele : resp.data.data))
-      })
-    } else {
+  const handleUpdate = (todo: Todo, property: string, newValue: any) => {
       setTodos(() => {
         if (todo.id) {
           return todos.map(ele => ele.id !== todo.id ? ele: {...todo, [property]: newValue})
@@ -35,7 +30,6 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
         }
       })
     }
-  }
 
   const handleDelete = (todo: Todo) => {
     axios.delete(`todos/${todo.id}`).then((resp: AxiosResponse<any>) => {
@@ -46,7 +40,7 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
   const handleCreateCategory = (newCategory: string, todo: Todo) => {
     axios.post('/categories', {name: newCategory}).then((resp: AxiosResponse<any>) => {
       setCategories([...categories, resp.data.data])
-      handleUpdate(todo, 'category', resp.data.data.name, false)
+      handleUpdate(todo, 'category', resp.data.data.name)
     })
   }
 

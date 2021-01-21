@@ -4,7 +4,7 @@ import React from 'react'
 
 const TodoDisplay: React.FC<{
     todo: any, 
-    handleUpdate: ((todo: any, property: string, newValue: any, submit: Boolean) => void),
+    handleUpdate: ((todo: any, property: string, newValue: any) => void),
     setEdit: React.Dispatch<React.SetStateAction<Boolean>>
     }> = ({todo, handleUpdate, setEdit}) => {
 
@@ -16,7 +16,7 @@ const TodoDisplay: React.FC<{
     <div className="todo-list-row"> 
       <input type="checkbox" 
              checked={todo.completed} 
-             onChange={e => handleUpdate(todo, 'completed', e.target.checked, true)}
+             onChange={e => handleUpdate(todo, 'completed', e.target.checked)}
       />
         <div onClick={() => activateEdit()}>{todo.text}</div>
         <div onClick={() => activateEdit()}>{todo.category}</div>
