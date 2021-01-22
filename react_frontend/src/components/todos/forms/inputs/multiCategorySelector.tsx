@@ -7,7 +7,12 @@ import { Category } from '../../../../interfaces/todo.interfaces';
 const colourStyles: StylesConfig<Category, true> = {
   control: styles => ({ ...styles, backgroundColor: 'white' }),
   option: (styles, {data, isDisabled, isFocused, isSelected}) => {
-    const color = chroma(data.color);
+    let color;
+    if (data.color) {
+      color = chroma(data.color)
+    } else {
+      color = chroma('#ccc')
+    }
     return {
       ...styles,
       backgroundColor: isDisabled
