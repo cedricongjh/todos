@@ -23,7 +23,7 @@ const TodoControl: React.FC<
 
     const [options, setOptions] = useState<optionsForm>({completed: false, categories: [], fromDate: '', toDate: '', searchStr: ''})
 
-    const categoryOptions = categories.map((category: any) => {return {value: category.name, label: category.name}})
+    const categoryOptions = categories.map((category: any) => {return {value: category.name, label: category.name, color: category.color}})
 
     useEffect(() => {
 

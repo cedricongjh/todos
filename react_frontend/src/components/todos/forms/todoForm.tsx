@@ -17,7 +17,7 @@ const TodoForm: React.FC<{
  
     ({handleSubmit, handleDelete, createCategory, categories, todo, handleUpdate, setEdit}) => {
 
-    const categoryOptions = categories.map((category: any) => {return {value: category.name, label: category.name}})
+    const categoryOptions = categories.map((category: any) => {return {value: category.name, label: category.name, color: category.color}})
 
     const sumbitForm = (evt: React.FormEvent<HTMLFormElement>) => {
       evt.preventDefault()
