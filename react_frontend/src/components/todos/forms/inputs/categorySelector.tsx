@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import chroma from 'chroma-js'
 import CreatableSelect from 'react-select/creatable'
 import { StylesConfig } from 'react-select'
-import { Category } from '../../../../interfaces/todo.interfaces';
-import { date } from 'yup/lib/locale';
 
 interface State {
   isLoading: boolean
