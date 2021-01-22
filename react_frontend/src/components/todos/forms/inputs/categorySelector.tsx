@@ -81,7 +81,7 @@ export default class CategorySelector extends Component<Props, State> {
         options={this.props.options}
         value={this.props.selected}
         styles={colourStyles}
-        placeholder="Select a category"
+        placeholder={isLoading ? "creating..." : "Select a category"}
       />
     )
   }

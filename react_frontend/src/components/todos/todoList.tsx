@@ -38,10 +38,22 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
     })
   }
 
-  const handleCreateCategory = (newCategory: string, todo: Todo) => {
-    axios.post('/categories', {name: newCategory}).then((resp: AxiosResponse<any>) => {
+  const handleCreateCategory = (newCategory: string, color?: string, todo?: Todo) => {
+    axios.post('/categories', {name: newCategory, color: color}).then((resp: AxiosResponse<any>) => {
       setCategories([...categories, resp.data.data])
-      handleUpdate(todo, 'category', resp.data.data.name)
+      if (todo) {
+        handleUpdate(todo, 'category', resp.data.data.name)
+      }
+    })
+  }
+
+  const handleUpdateCategory = (updatedCategory: Category) => {
+    setCategories(() => {
+      if (updatedCategory.id) {
+        return categories.map(ele => ele.id !== updatedCategory.id ? ele : {...updatedCategory})
+      } else {
+        return categories.map(ele => ele.id ? ele : {...updatedCategory})
+      }
     })
   }
 
@@ -80,7 +92,9 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
         todos={todos} 
         categories={categories}
         filter={filter} 
-        setDisplayedTodos={setDisplayedTodos} />
+        setDisplayedTodos={setDisplayedTodos}
+        handleCreateCategory={handleCreateCategory}
+        handleUpdateCategory={handleUpdateCategory} />
 
       <button onClick={logout}>LOGOUT</button>
     </div>

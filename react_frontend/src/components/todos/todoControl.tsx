@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import DateRange from './forms/inputs/dateRange'
-import { dateConverter } from '../../utils/dateConverter'
 import MultiCategorySelector from './forms/inputs/multiCategorySelector'
+import CategoryEditor from './forms/inputs/categoryEditor'
+import { dateConverter } from '../../utils/dateConverter'
 import { Todo, Category } from '../../interfaces/todo.interfaces'
 
 type optionsForm = {
@@ -16,10 +17,12 @@ const TodoControl: React.FC<
     {todos: Todo[], 
      categories: Category[], 
      setDisplayedTodos: React.Dispatch<React.SetStateAction<Todo[]>>
-     filter: boolean}
+     filter: boolean
+     handleCreateCategory(category: string, color?: string, todo?: Todo): void
+     handleUpdateCategory(category: Category): void}
     > = 
     
-    ({todos, categories, setDisplayedTodos, filter}) => {
+    ({todos, categories, setDisplayedTodos, handleUpdateCategory, handleCreateCategory, filter}) => {
 
     const [options, setOptions] = useState<optionsForm>({completed: false, categories: [], fromDate: '', toDate: '', searchStr: ''})
 
@@ -114,6 +117,9 @@ const TodoControl: React.FC<
 
     }, [filter, options.completed, options.categories, options.toDate, options.fromDate, options.searchStr, todos, setDisplayedTodos])
 
+    const [showNew, setShowNew] = useState(false)
+    const [newCategory, setNewCategory] = useState<Category>({name: '', color: ''})
+
     return(
       <div>
         <div>Filter by:</div>
@@ -147,6 +153,19 @@ const TodoControl: React.FC<
           <label>Search</label>
           <input value={options.searchStr}
                  onChange={e => setOptions({...options, searchStr: e.target.value})}/>
+        </div>
+
+        <div>
+          Settings:
+          {categories.map(category => {
+            return (<CategoryEditor category={category} handleUpdateCategory={handleUpdateCategory} />)
+          })}
+          {showNew ? <div>
+                        <button onClick={() => setShowNew(false)}>-</button> 
+                        <CategoryEditor category={newCategory} handleUpdateCategory={setNewCategory}/>
+                        <button onClick={() => {handleCreateCategory(newCategory.name, newCategory.color); setShowNew(false); setNewCategory({name: '', color: ''})}}>ADD</button>
+                      </div>
+                   : <button onClick={() => {setShowNew(true)}}>+</button>}
         </div>
       </div>
     ) 
