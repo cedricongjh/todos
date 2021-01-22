@@ -15,8 +15,9 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
   const handleSubmit = (payload: Todo) => {
     axios.post('/todos', {...payload}).then((resp: any) => {
       setTodos(() => {
-        todos.pop()
-        return [...todos, resp.data.data, {text: '', category: '', due: '', completed: false}]
+        let newTodos = [...todos]
+        newTodos.pop()
+        return [...newTodos, resp.data.data, {text: '', category: '', due: '', completed: false}]
       })
     })
   }
