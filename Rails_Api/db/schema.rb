@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_22_120902) do
+ActiveRecord::Schema.define(version: 2021_01_23_120433) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 2021_01_22_120902) do
 
   create_table "todos", force: :cascade do |t|
     t.string "text"
-    t.string "category"
+    t.integer "category_id"
     t.date "due"
     t.boolean "completed"
     t.datetime "created_at", precision: 6, null: false
