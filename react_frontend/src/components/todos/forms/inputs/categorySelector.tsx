@@ -10,7 +10,7 @@ interface State {
 interface Props {
   options: Array<Object>
   handleChange(value: any):void
-  createCategory(name: string, todo: any):void
+  createCategory(name: string, color?: string, todo?: any):void
   value: number | undefined
   selected: Object | undefined
   todo: any
@@ -65,7 +65,7 @@ export default class CategorySelector extends Component<Props, State> {
   
   handleCreate(newCategory: string) {
     this.setState({isLoading: true})
-    this.props.createCategory(newCategory, this.props.todo)
+    this.props.createCategory(newCategory, '', this.props.todo)
     this.setState({isLoading: false})
   }
 

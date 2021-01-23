@@ -36,11 +36,13 @@ const TodoForm: React.FC<{
 
     // using lodash's debounce, delay updating state and put request to update current todos
     const debouncedUpdate = useCallback(debounce(todo => {
+      if (todo.id) {
         axios.put(`/todos/${todo.id}`, todo).then((resp: any) => {
-        if (!(textInput.current === document.activeElement)) {
-          setEdit(false)
-        }
-      })
+          if (!(textInput.current === document.activeElement)) {
+            setEdit(false)
+          }
+        })
+      }
     }, 1000), [])
 
     return(
@@ -73,8 +75,8 @@ const TodoForm: React.FC<{
               todo={todo} 
               value={todo.category_id}
               selected={todo.category_id ? categoryOptions.find((category: any) => category.value === todo.category_id) : ''}
-              handleChange={value => {if (value) { handleUpdate({...todo}, 'category_id', value.value); debouncedUpdate({...todo, 'category_id': value.value}) } 
-                                      else {handleUpdate({...todo}, 'category_id', ''); debouncedUpdate({...todo, 'category_id': ''});}}}
+              handleChange={value => {if (value) { handleUpdate({...todo}, 'category_id', value.value); debouncedUpdate({...todo, 'category_id': value.value}); } 
+                                      else {handleUpdate({...todo}, 'category_id', ''); debouncedUpdate({...todo, 'category_id': ''}); }}}
               createCategory={createCategory} />
 
             <div className="todo-list-date-group">

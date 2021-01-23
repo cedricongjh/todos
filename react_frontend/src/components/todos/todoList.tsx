@@ -41,7 +41,10 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
     axios.post('/categories', {name: newCategory, color: color}).then((resp: AxiosResponse<any>) => {
       setCategories([...categories, resp.data.data])
       if (todo) {
-        handleUpdate(todo, 'category', resp.data.data.name)
+        handleUpdate(todo, 'category_id', resp.data.data.id)
+        if (todo.id) {
+          axios.put(`todos/${todo.id}`, {...todo, category_id: resp.data.data.id})
+        }
       }
     })
   }
