@@ -134,31 +134,36 @@ const TodoControl: React.FC<
     const [showSettings, setShowSettings] = useState(false)
 
     return(
+      // menu component
       <div className="menu">
         <div className="menu-header">
           <h2>Hello, welcome to your todo list</h2>
         </div>
         <div className="menu-icons">
-          <div onClick={() => {setShowFilter(!showFilter)}}>
-            <IconContext.Provider value={{className: "filter-icon"}}> 
+          <div onClick={() => {setShowFilter(!showFilter)}} className="menu-icon">
+            Filters
+            <IconContext.Provider value={{className: "menu-icon-logo"}}> 
               <FiFilter />
             </IconContext.Provider>
           </div>
 
-          <div onClick={() => {setShowSettings(!showSettings)}}>
-            <IconContext.Provider value={{className: "filter-icon"}}> 
+          <div onClick={() => {setShowSettings(!showSettings)}} className="menu-icon">
+            Settings
+            <IconContext.Provider value={{className: "menu-icon-logo"}}> 
               <FiSettings />
             </IconContext.Provider>
           </div>
 
-        <div onClick={handleLogout}>
-          <IconContext.Provider value={{className: "filter-icon"}}>
+        <div onClick={handleLogout} className="menu-icon">
+          Logout
+          <IconContext.Provider value={{className: "menu-icon-logo"}} >
             <FiLogOut/>
           </IconContext.Provider>
         </div>
 
       </div>
 
+        {/* filter options component */}
         {showFilter ? 
         <div>
           <div>
@@ -198,21 +203,40 @@ const TodoControl: React.FC<
           </div>
         </div> : null}
 
+        {/* settings component */}
         {showSettings ?
-        <div>
+        <div className="settings-modal">
+          <div className="settings-content">
           <h3>Settings</h3>
           <span>Categories: </span>
           {categories.map(category => {
-            return (<CategoryEditor category={category} handleUpdateCategory={handleUpdateCategory} />)
+            return (<CategoryEditor 
+                      category={category} 
+                      handleUpdateCategory={handleUpdateCategory} 
+                      handleCreateCategory={handleCreateCategory}
+                      newCategory={newCategory}
+                      setShowNew={setShowNew}
+                      setNewCategory={setNewCategory}
+                      />)
           })}
           {showNew ? <div>
                         <button onClick={() => setShowNew(false)}>-</button> 
-                        <CategoryEditor category={newCategory} handleUpdateCategory={setNewCategory}/>
-                        <button onClick={() => {handleCreateCategory(newCategory.name, newCategory.color); setShowNew(false); setNewCategory({name: '', color: ''})}}>ADD</button>
+                        <CategoryEditor 
+                          category={newCategory} 
+                          handleUpdateCategory={setNewCategory} 
+                          handleCreateCategory={handleCreateCategory}
+                          newCategory={newCategory}
+                          setShowNew={setShowNew}
+                          setNewCategory={setNewCategory}/>
                       </div>
                    : <button onClick={() => {setShowNew(true)}}>+</button>}
+          <div>
+            <button onClick={e => {setShowSettings(false)}}>OK</button>
+          </div>
+          </div>
         </div> :
         null}
+
       </div>
     ) 
 

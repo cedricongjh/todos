@@ -1,10 +1,20 @@
 import React, { useCallback } from 'react'
 import axios from 'axios'
 import { debounce } from 'lodash'
-import { Category } from '../../../../interfaces/todo.interfaces'
+import { Category, Todo } from '../../../../interfaces/todo.interfaces'
 import ColorPicker from './colorPicker'
 
-const CategoryEditor: React.FC<{category: Category, handleUpdateCategory(category: Category): void}> = ({category, handleUpdateCategory}) => {
+const CategoryEditor: React.FC<
+    {category: Category, 
+     handleUpdateCategory(category: Category): void,
+     handleCreateCategory(category: string, color?: string, todo?: Todo):void
+     newCategory?: any
+     setShowNew(value: React.SetStateAction<boolean>):void
+     setNewCategory(value: React.SetStateAction<any>): void
+    }
+    > = 
+    
+    ({category, handleUpdateCategory, handleCreateCategory, newCategory, setShowNew, setNewCategory}) => {
 
     // using lodash's debounce, delay put request to update category name
     const debouncedUpdate = useCallback(debounce(category => {
@@ -20,11 +30,10 @@ const CategoryEditor: React.FC<{category: Category, handleUpdateCategory(categor
     }
 
     return(
-        <div>
-          <div>
-            <input value={category.name} onChange={handleUpdateText}></input>
-            <ColorPicker handleUpdateCategory={handleUpdateCategory} color={category.color ? category.color : ''} category={category}/>
-          </div>
+        <div className="category-editor">
+          <input value={category.name} onChange={handleUpdateText}></input>
+          <ColorPicker handleUpdateCategory={handleUpdateCategory} color={category.color ? category.color : ''} category={category}/>
+          {category.id ? <button>DELETE</button> : <button onClick={() => {handleCreateCategory(newCategory.name, newCategory.color); setShowNew(false); setNewCategory({name: '', color: ''})}}>ADD</button>}
         </div>
     )
 
