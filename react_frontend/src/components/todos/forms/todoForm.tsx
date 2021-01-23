@@ -41,13 +41,14 @@ const TodoForm: React.FC<{
         >
 
           <input 
-            type="checkbox" 
+            type="checkbox"
             checked={todo.completed} 
             onChange={e => {handleUpdate({...todo}, 'completed', e.target.checked) 
                             debouncedUpdate({...todo, 'completed': e.target.checked})}}/>
 
           <input 
-            placeholder="Enter a todo here" 
+            placeholder="Enter a todo here"
+            className="todo-list-text-input" 
             value={todo.text} 
             onChange={e => {handleUpdate({...todo}, 'text', e.target.value)
                            debouncedUpdate({...todo, 'text': e.target.value})}} />

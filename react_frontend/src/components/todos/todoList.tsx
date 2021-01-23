@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import { IconContext } from 'react-icons'
+import { FiLogOut } from 'react-icons/fi'
 import axios, { AxiosResponse }  from 'axios'
 import TodoItem from './todoItem'
 import { Todo, Category } from '../../interfaces/todo.interfaces'
@@ -94,14 +96,13 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
         filter={filter} 
         setDisplayedTodos={setDisplayedTodos}
         handleCreateCategory={handleCreateCategory}
-        handleUpdateCategory={handleUpdateCategory} />
-
-      <button onClick={logout}>LOGOUT</button>
+        handleUpdateCategory={handleUpdateCategory}
+        handleLogout={logout} />
     </div>
 
-    <div className="todo-list-row todo-list-headers">
+    <div className="todo-list-headers">
       <div></div>
-      <div>TODO</div>
+      <div className="todo-list-todo-header">TODO</div>
       <div>CATEGORY</div>
       <div>DUE</div>
     </div>

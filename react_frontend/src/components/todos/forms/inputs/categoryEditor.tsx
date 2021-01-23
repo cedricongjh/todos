@@ -6,7 +6,7 @@ const CategoryEditor: React.FC<{category: Category, handleUpdateCategory(categor
 
     return(
         <div>
-            <div>{category.name}</div>
+            {category.id ? <div>{category.name}</div> : <input value={category.name} onChange={e => handleUpdateCategory({...category, name: e.target.value})}></input>}
             <ColorPicker handleUpdateCategory={handleUpdateCategory} color={category.color ? category.color : ''} category={category}/>
         </div>
     )

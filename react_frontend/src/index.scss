@@ -12,20 +12,58 @@ code {
     monospace;
 }
 
+// styling for menu
+.menu {
+  display: flex;
+  flex-direction: row;
+  width: 90%;
+  justify-content: space-between;
+}
+
+.menu-header {
+  display: flex;
+  align-items: center;
+}
+
+.menu-icons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+
 .todo-list {
   width: 90%;  
   margin: auto;
 }
 
 .todo-list-row {
-  display: grid;
-  grid-template-columns: 3% 50% 22% 10% 5%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 36px;
 }
 
 .todo-list-headers {
   font-weight: bold;
+  display: flex;
+  justify-content: space-evenly;
 }
 
+.todo-list-todo-header {
+  width: 20%;
+}
+
+.todo-list-text-input {
+  -webkit-appearance: none;
+  border: 0;
+  width: 20%;
+}
+
+.todo-list-category-input {
+  width: 15%;
+}
 
 // styling for color picker component
 .color-picker-button-color {
@@ -57,7 +95,7 @@ code {
 }
 
 
-// styling for checkboxes and radio button
+// styling for checkboxes and radio button from css-tricks
 @supports(-webkit-appearance: none) or (-moz-appearance: none) {
   input[type='checkbox'],
   input[type='radio'] {
@@ -192,4 +230,25 @@ code {
       --s: .5;
     }
   }
+}
+
+// style for logout button
+.logout-button {
+  width: 25px;
+  height: 25px;
+}
+
+.logout-button:active {
+  border-radius: 50%;
+  background-color: lightgrey;
+}
+
+// style for filter icon
+.filter-icon {
+  width: 25px;
+  height: 25px;
+}
+
+.filter-icon:active {
+  background-color: lightgrey;
 }

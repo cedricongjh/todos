@@ -18,8 +18,8 @@ const TodoDisplay: React.FC<{
              checked={todo.completed} 
              onChange={e => handleUpdate(todo, 'completed', e.target.checked)}
       />
-        <div onClick={() => activateEdit()}>{todo.text}</div>
-        <div onClick={() => activateEdit()}>{todo.category}</div>
+        <div className="todo-list-text-input" onClick={() => activateEdit()}>{todo.text}</div>
+        <div className="todo-list-category-input" onClick={() => activateEdit()}>{todo.category}</div>
         <div onClick={() => activateEdit()}>{todo.due}</div>
     </div>)
 
