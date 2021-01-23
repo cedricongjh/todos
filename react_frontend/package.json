@@ -16,6 +16,7 @@
     "@types/react-icons": "^3.0.0",
     "@types/react-router-dom": "^5.1.7",
     "@types/react-select": "^3.1.2",
+    "@types/react-textarea-autosize": "^4.3.5",
     "axios": "^0.21.1",
     "chroma-js": "^2.1.0",
     "lodash": "^4.17.20",
@@ -28,12 +29,13 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "react-select": "^3.1.1",
+    "react-textarea-autosize": "^8.3.0",
     "typescript": "^4.0.3",
     "web-vitals": "^0.2.4",
     "yup": "^0.32.8"
   },
   "scripts": {
-    "start": "PORT=5000 react-scripts start",
+    "start": "set PORT=5000 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
