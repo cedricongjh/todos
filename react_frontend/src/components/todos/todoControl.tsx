@@ -125,7 +125,8 @@ const TodoControl: React.FC<
         <div>Filter by:</div>
         <div>
             <label>Hide completed</label>
-            <input type="checkbox" 
+            <input type="checkbox"
+                   className="switch" 
                    checked={options.completed} 
                    onChange={e => setOptions({...options, completed: e.target.checked   })}/>
         </div>
