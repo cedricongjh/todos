@@ -19,7 +19,7 @@
     "chroma-js": "^2.1.0",
     "css.gg": "^2.0.0",
     "lodash": "^4.17.20",
-    "node-sass": "^5.0.0",
+    "node-sass": "4.14.1",
     "react": "^17.0.1",
     "react-color": "^2.19.3",
     "react-day-picker": "^7.4.8",
