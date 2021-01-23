@@ -59,8 +59,7 @@ const TodoControl: React.FC<
         }
 
         if (options.categories && options.categories.length > 0) {
-          const categoryIds = options.categories.map(category => category.value)
-          if (todo.category_id && categoryIds.includes(todo.category_id)) {
+          if (todo.category_id && options.categories.includes(todo.category_id)) {
             return true
           } else {
             return false
@@ -157,6 +156,7 @@ const TodoControl: React.FC<
             <FiLogOut/>
           </IconContext.Provider>
         </div>
+
       </div>
 
         {showFilter ? 
@@ -174,7 +174,10 @@ const TodoControl: React.FC<
                   placeholder='Select categories to show' 
                   options={categoryOptions} 
                   value={options.categories}
-                  handleChange={(value: any) => setOptions({...options, categories: value})}/>
+                  selected={options.categories ? categoryOptions.filter(category => options.categories.includes(category.value)) : []}
+                  handleChange={(value: any) => {value && value.length > 0 
+                                                  ? setOptions({...options, categories: value.map((category: any) => {return category.value})}) 
+                                                  : setOptions({...options, categories: []})}}/>
           </div>
           <div>
               <label>Date range</label>

@@ -65,9 +65,9 @@ const colourStyles: StylesConfig<Category, true> = {
 
 // this component was created using react-select
 
-const MultiCategorySelector: React.FC<{options: any, value: any, handleChange: any, placeholder: string}> = 
+const MultiCategorySelector: React.FC<{options: any, value: any, handleChange: any, placeholder: string, selected: any[]}> = 
     
-    ({options, value, handleChange, placeholder}) => {
+    ({options, value, handleChange, placeholder, selected}) => {
 
     return(
       <Select
@@ -75,7 +75,7 @@ const MultiCategorySelector: React.FC<{options: any, value: any, handleChange: a
         name="categories"
         placeholder={placeholder}
         options={options}
-        value={value}
+        value={selected}
         onChange={handleChange}
         styles={colourStyles}
       />
