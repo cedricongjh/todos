@@ -31,9 +31,9 @@ const TodoControl: React.FC<
     
     ({todos, categories, setDisplayedTodos, handleUpdateCategory, handleCreateCategory, filter, handleLogout}) => {
 
-    const [options, setOptions] = useState<optionsForm>({completed: false, categories: [], fromDate: '', toDate: '', searchStr: ''})
+    const [options, setOptions] = useState<optionsForm>({completed: true, categories: [], fromDate: '', toDate: '', searchStr: ''})
 
-    const categoryOptions = categories.map((category: any) => {return {value: category.name, label: category.name, color: category.color}})
+    const categoryOptions = categories.map((category: any) => {return {value: category.id, label: category.name, color: category.color}})
 
     useEffect(() => {
 
@@ -59,8 +59,8 @@ const TodoControl: React.FC<
         }
 
         if (options.categories && options.categories.length > 0) {
-          const stringCategories = options.categories.map(category => category.value)
-          if (todo.category && stringCategories.includes(todo.category)) {
+          const categoryIds = options.categories.map(category => category.value)
+          if (todo.category_id && categoryIds.includes(todo.category_id)) {
             return true
           } else {
             return false

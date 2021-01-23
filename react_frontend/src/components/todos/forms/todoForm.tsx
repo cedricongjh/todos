@@ -17,7 +17,7 @@ const TodoForm: React.FC<{
  
     ({handleSubmit, handleDelete, createCategory, categories, todo, handleUpdate, setEdit}) => {
 
-    const categoryOptions = categories.map((category: any) => {return {value: category.name, label: category.name, color: category.color}})
+    const categoryOptions = categories.map((category: any) => {return {value: category.id, label: category.name, color: category.color}})
 
     const sumbitForm = (evt: React.FormEvent<HTMLFormElement>) => {
       evt.preventDefault()
@@ -56,10 +56,10 @@ const TodoForm: React.FC<{
           <CategorySelector 
             options={categoryOptions}
             todo={todo} 
-            value={todo.category}
-            selected={todo.category ? categoryOptions.find((category: any) => category.value === todo.category) : ''}
-            handleChange={value => {if (value) { handleUpdate({...todo}, 'category', value.value); debouncedUpdate({...todo, 'category': value.value}) } 
-                                    else {handleUpdate({...todo}, 'category', ''); debouncedUpdate({...todo, 'category': ''});}}}
+            value={todo.category_id}
+            selected={todo.category_id ? categoryOptions.find((category: any) => category.value === todo.category_id) : ''}
+            handleChange={value => {if (value) { handleUpdate({...todo}, 'category_id', value.value); debouncedUpdate({...todo, 'category_id': value.value}) } 
+                                    else {handleUpdate({...todo}, 'category_id', ''); debouncedUpdate({...todo, 'category_id': ''});}}}
             createCategory={createCategory} />
 
           <DayPickerInput 

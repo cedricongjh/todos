@@ -33,7 +33,8 @@ const TodoItem: React.FC<
         : <TodoDisplay
             setEdit={setEdit}
             todo={todo}
-            handleUpdate={handleUpdate} 
+            handleUpdate={handleUpdate}
+            categories={categories} 
           />}
     </div>
     )

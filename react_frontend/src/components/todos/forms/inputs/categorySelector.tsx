@@ -11,7 +11,7 @@ interface Props {
   options: Array<Object>
   handleChange(value: any):void
   createCategory(name: string, todo: any):void
-  value: String | undefined
+  value: number | undefined
   selected: Object | undefined
   todo: any
 }

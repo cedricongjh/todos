@@ -1,10 +1,10 @@
 export interface Todo {
     text: string
     id?: number
-    category?: string
+    category_id?: number
     due?: string
     completed: boolean
-  }
+}
   
 export interface Category {
     id?: number
