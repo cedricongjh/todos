@@ -31,8 +31,18 @@ class CategoriesController < ApplicationController
 
     def destroy
         category = @user.categories.find(params[:id])
-        category.destroy
-        render json: {status: 'SUCCESS', message: 'category deleted', data: category}, status: :ok
+        todos = @user.todos.where(category_id: category.id)
+
+        begin
+            todos.each do |todo|
+                todo.update(category_id: nil)
+            end
+        rescue StandardError
+            render json: {status: 'ERROR', message: 'error deleting category', data: category}, status: :unprocessable_entity
+        else
+            category.destroy
+            render json: {status: 'SUCCESS', message: 'category deleted', data: category}, status: :ok
+        end
     end
 
     private
