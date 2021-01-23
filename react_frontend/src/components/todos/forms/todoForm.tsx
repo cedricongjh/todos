@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useRef } from 'react'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
 import 'react-day-picker/lib/style.css'
 import CategorySelector from './inputs/categorySelector'
@@ -24,11 +24,15 @@ const TodoForm: React.FC<{
       handleSubmit(todo)
     }
 
+    const textInput = useRef(null)
+
     // using lodash's debounce, delay put request to update current todos
     const debouncedUpdate = useCallback(debounce(todo => {
         if (todo.id) {
           axios.put(`/todos/${todo.id}`, todo).then((resp: any) => {
-            setEdit(false)
+            if (!(textInput.current === document.activeElement)) {
+              setEdit(false)
+            }
           })
         }
     }, 1000), [])
@@ -49,7 +53,8 @@ const TodoForm: React.FC<{
           <input 
             placeholder="Enter a todo here"
             className="todo-list-text-input" 
-            value={todo.text} 
+            defaultValue={todo.text}
+            ref={textInput} 
             onChange={e => {handleUpdate({...todo}, 'text', e.target.value)
                            debouncedUpdate({...todo, 'text': e.target.value})}} />
 
