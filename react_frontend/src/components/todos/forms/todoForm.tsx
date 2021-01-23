@@ -1,10 +1,15 @@
 import React, { useCallback, useRef, useState } from 'react'
-import DayPickerInput from 'react-day-picker/DayPickerInput'
 import 'react-day-picker/lib/style.css'
+
+import DayPickerInput from 'react-day-picker/DayPickerInput'
 import CategorySelector from './inputs/categorySelector'
-import { Todo, Category } from '../../../interfaces/todo.interfaces'
+import TextareaAutosize from 'react-textarea-autosize'
+
 import { debounce } from 'lodash'
 import axios from 'axios'
+
+import { Todo, Category } from '../../../interfaces/todo.interfaces'
+
 
 const TodoForm: React.FC<{
   handleSubmit: ((payload: any) => void), 
@@ -49,15 +54,16 @@ const TodoForm: React.FC<{
                 onChange={e => {handleUpdate({...todo}, 'completed', e.target.checked) 
                                 debouncedUpdate({...todo, 'completed': e.target.checked})}}/>
 
-              <input
+              <TextareaAutosize
                 placeholder={todo.id ? "" : "Enter a todo here"}
                 className="todo-list-text-input"
                 value={text}
                 ref={textInput} 
                 onChange={e => {setText(e.target.value)
-                                handleUpdate({...todo}, 'text', e.target.value)
                                 if (todo.id) {
                                   debouncedUpdate({...todo, 'text': e.target.value})
+                                } else {
+                                  handleUpdate({...todo}, 'text', e.target.value)
                                 }
                                 }} />
             </div>

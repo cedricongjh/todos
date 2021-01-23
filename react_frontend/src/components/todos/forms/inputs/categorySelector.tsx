@@ -73,6 +73,7 @@ export default class CategorySelector extends Component<Props, State> {
     const { isLoading } = this.state
     return (
       <CreatableSelect
+        components={{ DropdownIndicator:() => null, IndicatorSeparator:() => null }}
         className="todo-list-category-input"
         isClearable
         isDisabled={isLoading}

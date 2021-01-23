@@ -20,8 +20,7 @@ const TodoItem: React.FC<
 
     return(
     <div>
-    {edit
-        ? <TodoForm
+<TodoForm
             todo={todo}
             setEdit={setEdit} 
             categories={categories} 
@@ -30,12 +29,7 @@ const TodoItem: React.FC<
             handleDelete={handleDelete}
             createCategory={createCategory}
           /> 
-        : <TodoDisplay
-            setEdit={setEdit}
-            todo={todo}
-            handleUpdate={handleUpdate}
-            categories={categories} 
-          />}
+
     </div>
     )
 
