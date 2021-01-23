@@ -59,11 +59,28 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
     })
   }
 
+  const handleDeleteCategory = (deletedCategory: Category) => {
+    setCategories(() => categories.filter(categories => categories.id !== deletedCategory.id))
+    setTodos(() => {
+      return todos.map(
+        todo => {
+          if (todo.category_id === deletedCategory.id) {
+            return {...todo, category_id: undefined}
+          } else {
+            return todo
+          }
+        }
+      )
+    })
+    axios.delete(`/categories/${deletedCategory.id}`).then((resp: any) => {
+    })
+
+  }
+
   const logout = () => {
       axios.post('logout').then((resp: AxiosResponse<any>) => {
         setLoggedIn(false)
       })
-
   }
 
   // trigger filtering when todos update
@@ -97,6 +114,7 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
         setDisplayedTodos={setDisplayedTodos}
         handleCreateCategory={handleCreateCategory}
         handleUpdateCategory={handleUpdateCategory}
+        handleDeleteCategory={handleDeleteCategory}
         handleLogout={logout} />
     </div>
   

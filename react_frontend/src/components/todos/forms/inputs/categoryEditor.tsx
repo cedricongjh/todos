@@ -6,15 +6,16 @@ import ColorPicker from './colorPicker'
 
 const CategoryEditor: React.FC<
     {category: Category, 
-     handleUpdateCategory(category: Category): void,
+     handleUpdateCategory(category: Category): void
      handleCreateCategory(category: string, color?: string, todo?: Todo):void
+     handleDeleteCategory(category: Category): void
      newCategory?: any
      setShowNew(value: React.SetStateAction<boolean>):void
      setNewCategory(value: React.SetStateAction<any>): void
     }
     > = 
     
-    ({category, handleUpdateCategory, handleCreateCategory, newCategory, setShowNew, setNewCategory}) => {
+    ({category, handleUpdateCategory, handleCreateCategory, handleDeleteCategory, newCategory, setShowNew, setNewCategory}) => {
 
     // using lodash's debounce, delay put request to update category name
     const debouncedUpdate = useCallback(debounce(category => {
@@ -33,7 +34,12 @@ const CategoryEditor: React.FC<
         <div className="category-editor">
           <input value={category.name} onChange={handleUpdateText}></input>
           <ColorPicker handleUpdateCategory={handleUpdateCategory} color={category.color ? category.color : ''} category={category}/>
-          {category.id ? <button>DELETE</button> : <button onClick={() => {handleCreateCategory(newCategory.name, newCategory.color); setShowNew(false); setNewCategory({name: '', color: ''})}}>ADD</button>}
+          {category.id 
+            ? <button onClick={e => {handleDeleteCategory(category)}}>DELETE</button>
+            : <button onClick={() => {handleCreateCategory(newCategory.name, newCategory.color)
+                                      setShowNew(false) 
+                                      setNewCategory({name: '', color: ''})}}
+              >ADD</button>}
         </div>
     )
 

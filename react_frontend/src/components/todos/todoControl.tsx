@@ -26,10 +26,11 @@ const TodoControl: React.FC<
      filter: boolean
      handleCreateCategory(category: string, color?: string, todo?: Todo): void
      handleUpdateCategory(category: Category): void
+     handleDeleteCategory(category: Category): void
      handleLogout():void}
     > = 
     
-    ({todos, categories, setDisplayedTodos, handleUpdateCategory, handleCreateCategory, filter, handleLogout}) => {
+    ({todos, categories, setDisplayedTodos, handleUpdateCategory, handleCreateCategory, handleDeleteCategory, filter, handleLogout}) => {
 
     const [options, setOptions] = useState<optionsForm>({completed: true, categories: [], fromDate: '', toDate: '', searchStr: ''})
 
@@ -214,6 +215,7 @@ const TodoControl: React.FC<
                       category={category} 
                       handleUpdateCategory={handleUpdateCategory} 
                       handleCreateCategory={handleCreateCategory}
+                      handleDeleteCategory={handleDeleteCategory}
                       newCategory={newCategory}
                       setShowNew={setShowNew}
                       setNewCategory={setNewCategory}
@@ -225,6 +227,7 @@ const TodoControl: React.FC<
                           category={newCategory} 
                           handleUpdateCategory={setNewCategory} 
                           handleCreateCategory={handleCreateCategory}
+                          handleDeleteCategory={handleDeleteCategory}
                           newCategory={newCategory}
                           setShowNew={setShowNew}
                           setNewCategory={setNewCategory}/>
