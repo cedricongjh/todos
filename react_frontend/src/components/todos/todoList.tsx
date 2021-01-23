@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { IconContext } from 'react-icons'
-import { FiLogOut } from 'react-icons/fi'
 import axios, { AxiosResponse }  from 'axios'
 import TodoItem from './todoItem'
 import { Todo, Category } from '../../interfaces/todo.interfaces'
@@ -69,7 +67,7 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
   // trigger filtering when todos update
   useEffect(() => {
     setDisplayedTodos([...todos])
-    setFilter(!filter)
+    setFilter(f => !f)
   }, [todos])
 
   // fetch user data upon mounting
