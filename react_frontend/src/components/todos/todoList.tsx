@@ -68,7 +68,7 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
   useEffect(() => {
     setDisplayedTodos([...todos])
     setFilter(f => !f)
-  }, [todos])
+  }, [...todos.map(todo => {return {category_id: todo.category_id, due: todo.due, completed: todo.completed}})])
 
   // fetch user data upon mounting
   useEffect(() => {
@@ -80,7 +80,7 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
       setCategories(categories)
     }).catch(err => {
       console.log(err)
-      setTodos([{text: '', category: '', due: '', completed: false}])
+      setTodos([{text: '', category_id: undefined, due: '', completed: false}])
     })
   }, [])
 
