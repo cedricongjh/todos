@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios, { AxiosResponse }  from 'axios'
 import TodoItem from './todoItem'
+import TodoForm from './forms/todoForm'
 import { Todo, Category } from '../../interfaces/todo.interfaces'
 import TodoControl from './todoControl'
 
@@ -11,25 +12,23 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
   const [displayedTodos, setDisplayedTodos] = useState<Todo[]>([])
   const [filter, setFilter] = useState(false)
   const [categories, setCategories] = useState<Category[]>([])
+  const [formtodo, setFormTodo] = useState<Todo>({text: '', due: '', completed: false, category_id: undefined})
 
   const handleSubmit = (payload: Todo) => {
     axios.post('/todos', {...payload}).then((resp: any) => {
       setTodos(() => {
-        let newTodos = [...todos]
-        newTodos.pop()
-        return [...newTodos, resp.data.data, {text: '', category: '', due: '', completed: false}]
+        return [...todos, resp.data.data]
       })
+      setFormTodo({text: '', due: '', completed: false, category_id: undefined})
     })
   }
 
   const handleUpdate = (todo: Todo, property: string, newValue: any) => {
-      setTodos(() => {
-        if (todo.id) {
-          return todos.map(ele => ele.id !== todo.id ? ele: {...todo, [property]: newValue})
-        } else {
-          return todos.map(ele => ele.id ? ele : {...todo, [property]: newValue})
-        }
-      })
+      if (todo.id) {
+        setTodos(() => { return todos.map(ele => ele.id !== todo.id ? ele: {...todo, [property]: newValue})})
+      } else {
+        setFormTodo({...formtodo, [property]: newValue})
+      }
     }
 
   const handleDelete = (todo: Todo) => {
@@ -68,19 +67,19 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
   useEffect(() => {
     setDisplayedTodos([...todos])
     setFilter(f => !f)
-  }, [...todos.map(todo => {return {category_id: todo.category_id, due: todo.due, completed: todo.completed}})])
+  }, [...todos.map(todo => {return {category_id: todo.category_id, due: todo.due, completed: todo.completed }})])
 
   // fetch user data upon mounting
   useEffect(() => {
     axios.get('/user').then((resp: any) => {
       let todos = resp.data.data['todos']
-      todos.push({text: '', category: '', due: '', completed: false})
       setTodos(todos)
       let categories = resp.data.data['categories']
       setCategories(categories)
     }).catch(err => {
       console.log(err)
-      setTodos([{text: '', category_id: undefined, due: '', completed: false}])
+      setTodos([])
+      setCategories([])
     })
   }, [])
 
@@ -97,13 +96,6 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
         handleUpdateCategory={handleUpdateCategory}
         handleLogout={logout} />
     </div>
-
-    <div className="todo-list-headers">
-      <div></div>
-      <div className="todo-list-todo-header">TODO</div>
-      <div>CATEGORY</div>
-      <div>DUE</div>
-    </div>
   
     {displayedTodos.map(todo => 
     <TodoItem
@@ -115,6 +107,15 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
       handleDelete={handleDelete}
       createCategory={handleCreateCategory} 
     />)}
+
+    <TodoForm 
+      handleSubmit={handleSubmit} 
+      handleUpdate={handleUpdate} 
+      createCategory={handleCreateCategory} 
+      handleDelete={handleDelete} 
+      categories={categories} 
+      todo={formtodo} 
+      setEdit={null} />
   
   </div>
   )

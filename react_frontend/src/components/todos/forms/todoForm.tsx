@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
 import 'react-day-picker/lib/style.css'
 import CategorySelector from './inputs/categorySelector'
@@ -22,64 +22,67 @@ const TodoForm: React.FC<{
     const sumbitForm = (evt: React.FormEvent<HTMLFormElement>) => {
       evt.preventDefault()
       handleSubmit(todo)
+      setText('')
     }
+
+    const [text, setText] = useState(todo.text)
 
     const textInput = useRef(null)
 
-    // using lodash's debounce, delay put request to update current todos
+    // using lodash's debounce, delay updating state and put request to update current todos
     const debouncedUpdate = useCallback(debounce(todo => {
-        if (todo.id) {
-          axios.put(`/todos/${todo.id}`, todo).then((resp: any) => {
-            if (!(textInput.current === document.activeElement)) {
-              setEdit(false)
-            }
-          })
+        axios.put(`/todos/${todo.id}`, todo).then((resp: any) => {
+        if (!(textInput.current === document.activeElement)) {
+          setEdit(false)
         }
+      })
     }, 1000), [])
 
     return(
+      
+        <form onSubmit={evt => sumbitForm(evt)}>
+          <div className="todo-list-row">
+            <div className="todo-list-item">
+              <input 
+                type="checkbox"
+                checked={todo.completed} 
+                onChange={e => {handleUpdate({...todo}, 'completed', e.target.checked) 
+                                debouncedUpdate({...todo, 'completed': e.target.checked})}}/>
 
-        <form
-          className="todo-list-row" 
-          onSubmit={evt => sumbitForm(evt)}
-        >
+              <input
+                placeholder={todo.id ? "" : "Enter a todo here"}
+                className="todo-list-text-input"
+                value={text}
+                ref={textInput} 
+                onChange={e => {setText(e.target.value)
+                                handleUpdate({...todo}, 'text', e.target.value)
+                                if (todo.id) {
+                                  debouncedUpdate({...todo, 'text': e.target.value})
+                                }
+                                }} />
+            </div>
 
-          <input 
-            type="checkbox"
-            checked={todo.completed} 
-            onChange={e => {handleUpdate({...todo}, 'completed', e.target.checked) 
-                            debouncedUpdate({...todo, 'completed': e.target.checked})}}/>
+            <CategorySelector 
+              options={categoryOptions}
+              todo={todo} 
+              value={todo.category_id}
+              selected={todo.category_id ? categoryOptions.find((category: any) => category.value === todo.category_id) : ''}
+              handleChange={value => {if (value) { handleUpdate({...todo}, 'category_id', value.value); debouncedUpdate({...todo, 'category_id': value.value}) } 
+                                      else {handleUpdate({...todo}, 'category_id', ''); debouncedUpdate({...todo, 'category_id': ''});}}}
+              createCategory={createCategory} />
 
-          <input 
-            placeholder="Enter a todo here"
-            className="todo-list-text-input" 
-            defaultValue={todo.text}
-            ref={textInput} 
-            onChange={e => {handleUpdate({...todo}, 'text', e.target.value)
-                           debouncedUpdate({...todo, 'text': e.target.value})}} />
+            <div className="todo-list-date-group">
+            <DayPickerInput 
+              value={todo.due} 
+              format="YYYY-MM-DD" 
+              placeholder="Click to select a date"
+              inputProps={{readOnly: true}} 
+              onDayChange={(day: Date) => {handleUpdate({...todo}, 'due', day.toDateString())
+                                          debouncedUpdate({...todo, 'due': day.toDateString()})}}/>
 
-          <CategorySelector 
-            options={categoryOptions}
-            todo={todo} 
-            value={todo.category_id}
-            selected={todo.category_id ? categoryOptions.find((category: any) => category.value === todo.category_id) : ''}
-            handleChange={value => {if (value) { handleUpdate({...todo}, 'category_id', value.value); debouncedUpdate({...todo, 'category_id': value.value}) } 
-                                    else {handleUpdate({...todo}, 'category_id', ''); debouncedUpdate({...todo, 'category_id': ''});}}}
-            createCategory={createCategory} />
-
-          <DayPickerInput 
-            value={todo.due} 
-            format="YYYY-MM-DD" 
-            placeholder="Click to select a date"
-            inputProps={{readOnly: true}} 
-            onDayChange={(day: Date) => {handleUpdate({...todo}, 'due', day.toDateString())
-                                         debouncedUpdate({...todo, 'due': day.toDateString()})}}/>
-          
-          <div>
-
-          {todo.id ? <button type="button" onClick={() => handleDelete(todo)}>DELETE</button> : <button>SAVE</button>}
+            {todo.id ? <button onClick={e => {e.preventDefault(); handleDelete({...todo})}}>DELETE</button> : <button>SAVE</button>}
+            </div>
           </div>
-
         </form>
     )
 

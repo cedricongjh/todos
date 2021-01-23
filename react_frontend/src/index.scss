@@ -36,6 +36,8 @@ code {
 .todo-list {
   width: 90%;  
   margin: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .todo-list-row {
@@ -55,14 +57,29 @@ code {
   width: 20%;
 }
 
+.todo-list-item {
+  width: 50%;
+  min-height: 36px;
+}
+
 .todo-list-text-input {
   -webkit-appearance: none;
   border: 0;
-  width: 20%;
+  outline: 0;
+  outline-style: 0 0 1px 0;
+  padding-left: 0.5em;
+  height: 30px;
+  width: 75%;
+  resize: none;
+  font-size: 1.5em;
 }
 
 .todo-list-category-input {
   width: 15%;
+}
+
+.todo-list-date-group {
+  width: 20%;
 }
 
 // styling for color picker component

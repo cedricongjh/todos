@@ -18,14 +18,16 @@ const TodoDisplay: React.FC<{
     const color = category?.color ? chroma(category.color) : chroma('#ccc')
 
     return (
-    <div className="todo-list-row"> 
-      <input type="checkbox" 
-             checked={todo.completed} 
-             onChange={e => handleUpdate(todo, 'completed', e.target.checked)}
-      />
-        <div className="todo-list-text-input" onClick={() => activateEdit()}>{todo.text}</div>
+    <div className="todo-list-row">
+      <div className="todo-list-item">
+        <input type="checkbox"
+              checked={todo.completed} 
+              onChange={e => handleUpdate(todo, 'completed', e.target.checked)}
+        />
+        <span onClick={() => activateEdit()} className="todo-list-text-input">{todo.text}</span>
+      </div> 
         <div className="todo-list-category-input" onClick={() => activateEdit()} style={ {backgroundColor: color.alpha(0.3).css()}}>{category?.name}</div>
-        <div onClick={() => activateEdit()}>{todo.due}</div>
+        <div onClick={() => activateEdit()} className="todo-list-date-group">{todo.due}</div>
     </div>)
 
 }
