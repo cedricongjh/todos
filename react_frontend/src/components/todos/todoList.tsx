@@ -129,6 +129,7 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
 
   const logout = () => {
       axios.post('logout').then((resp: AxiosResponse<any>) => {
+        localStorage.removeItem('filterSettings')
         setLoggedIn(false)
       })
   }
