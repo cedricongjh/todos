@@ -63,7 +63,13 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
 
   const handleUpdate = (todo: Todo, property: string, newValue: any) => {
       if (todo.id) {
-        setTodos(() => { return todos.map(ele => ele.id !== todo.id ? ele: {...todo, [property]: newValue})})
+        if (property === 'due') {
+          const newTodo = {...todo, [property]: newValue}
+          const removed = todos.filter(ele => ele.id !== todo.id)
+          return setTodos(() => insertTodo(removed, newTodo, dateOrder))
+        } else {
+          setTodos(() => { return todos.map(ele => ele.id !== todo.id ? ele: {...todo, [property]: newValue})})
+        }
       } else {
         setFormTodo({...formtodo, [property]: newValue})
       }
