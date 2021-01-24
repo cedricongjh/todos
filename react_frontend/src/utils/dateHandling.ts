@@ -14,11 +14,11 @@ export const insertTodo = (todos: any[], todo: any, ascending: boolean) => {
             insertedIdx++
         }
         if (ascending) {
-            while (todos[insertedIdx].due &&  dateConverter(todo.due) >= dateConverter(todos[insertedIdx].due)) {
+            while (res[insertedIdx] && res[insertedIdx].due &&  dateConverter(todo.due) >= dateConverter(res[insertedIdx].due)) {
                 insertedIdx++
             }
         } else {
-            while (todos[insertedIdx].due &&  dateConverter(todo.due) <= dateConverter(todos[insertedIdx].due)) {
+            while (res[insertedIdx] && res[insertedIdx].due &&  dateConverter(todo.due) <= dateConverter(res[insertedIdx].due)) {
                 insertedIdx++
             }
         }
