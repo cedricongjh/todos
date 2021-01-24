@@ -1,4 +1,6 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
+import { IconContext } from 'react-icons'
+import { FiTrash, FiSave } from 'react-icons/fi'
 import 'react-day-picker/lib/style.css'
 
 import DayPickerInput from 'react-day-picker/DayPickerInput'
@@ -24,8 +26,7 @@ const TodoForm: React.FC<{
 
     const categoryOptions = categories.map((category: any) => {return {value: category.id, label: category.name, color: category.color}})
 
-    const sumbitForm = (evt: React.FormEvent<HTMLFormElement>) => {
-      evt.preventDefault()
+    const sumbitForm = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       handleSubmit(todo)
       setText('')
     }
@@ -47,7 +48,7 @@ const TodoForm: React.FC<{
 
     return(
       
-        <form onSubmit={evt => sumbitForm(evt)}>
+        <form>
           <div className="todo-list-row">
             <div className="todo-list-item">
               <input 
@@ -88,7 +89,17 @@ const TodoForm: React.FC<{
               onDayChange={(day: Date) => {handleUpdate({...todo}, 'due', day.toISOString().substring(0, 10))
                                           debouncedUpdate({...todo, 'due': day.toISOString().substring(0, 10)})}}/>
 
-            {todo.id ? <button onClick={e => {e.preventDefault(); handleDelete({...todo})}}>DELETE</button> : <button>SAVE</button>}
+            {todo.id 
+              ? <div onClick={e => {e.preventDefault(); handleDelete({...todo})}}>
+                  <IconContext.Provider value={{className: "menu-icon-logo"}}> 
+                    <FiTrash />
+                  </IconContext.Provider>
+                </div> 
+              : <div onClick={e => sumbitForm(e)}>
+                  <IconContext.Provider value={{className: "menu-icon-logo"}}> 
+                    <FiSave />
+                  </IconContext.Provider>
+                </div> }
             </div>
           </div>
         </form>

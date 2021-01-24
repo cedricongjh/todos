@@ -1,4 +1,6 @@
 import React, { useCallback } from 'react'
+import { IconContext } from 'react-icons'
+import { FiTrash, FiSave } from 'react-icons/fi'
 import axios from 'axios'
 import { debounce } from 'lodash'
 import { Category, Todo } from '../../../../interfaces/todo.interfaces'
@@ -35,11 +37,18 @@ const CategoryEditor: React.FC<
           <input value={category.name} onChange={handleUpdateText}></input>
           <ColorPicker handleUpdateCategory={handleUpdateCategory} color={category.color ? category.color : ''} category={category}/>
           {category.id 
-            ? <button onClick={e => {handleDeleteCategory(category)}}>DELETE</button>
-            : <button onClick={() => {handleCreateCategory(newCategory.name, newCategory.color)
+            ? <div onClick={e => handleDeleteCategory(category)}>
+                  <IconContext.Provider value={{className: "menu-icon-logo"}}> 
+                    <FiTrash />
+                  </IconContext.Provider>
+              </div>
+            : <div onClick={() => {handleCreateCategory(newCategory.name, newCategory.color)
                                       setShowNew(false) 
-                                      setNewCategory({name: '', color: ''})}}
-              >ADD</button>}
+                                      setNewCategory({name: '', color: ''})}}>
+                  <IconContext.Provider value={{className: "menu-icon-logo"}}> 
+                    <FiSave/>
+                  </IconContext.Provider>
+              </div>}
         </div>
     )
 
