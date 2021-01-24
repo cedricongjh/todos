@@ -15,7 +15,7 @@ class UsersController < ApplicationController
     def index
         authorised
         if @user
-            if @user.date_sort_ascending || @user.date_sort_ascending == nil
+            if @user.date_sort_ascending
                 todos = @user.todos.order('due ASC')
             else
                 todos = @user.todos.order('due DESC')
@@ -59,7 +59,7 @@ class UsersController < ApplicationController
     private
 
     def user_params
-        params.permit(:email, :password)
+        params.permit(:email, :password, :date_sort_ascending)
     end
 
     def user_data_params

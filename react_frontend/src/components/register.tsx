@@ -53,7 +53,7 @@ const Register: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => { 
         e.preventDefault()
-        axios.post('/users', {...form}).then(resp => {
+        axios.post('/users', {...form, date_sort_ascending: true}).then(resp => {
             if (resp.data.status === "SUCCESS") {
                 setLoggedIn(true)
             }
