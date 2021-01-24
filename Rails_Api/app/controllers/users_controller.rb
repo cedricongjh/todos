@@ -14,10 +14,14 @@ class UsersController < ApplicationController
 
     def index
         authorised
-        if @user 
-            todos = @user.todos.order('due ASC')
+        if @user
+            if !@user.date_sort_ascending || @user.date_sort_ascending == nil
+                todos = @user.todos.order('due DESC')
+            else
+                todos = @user.todos.order('due ASC')
+            end
             categories = @user.categories.all
-            render json: {status: 'SUCCESS', message: 'fetched user data', data: {todos: todos, categories: categories}}, status: :ok
+            render json: {status: 'SUCCESS', message: 'fetched user data', data: {todos: todos, categories: categories, date_sort_ascending: @user.date_sort_ascending}}, status: :ok
         end
     end
 
@@ -28,9 +32,18 @@ class UsersController < ApplicationController
         if @user && @user.authenticate(params[:password])
             token = encode_JWT({user_id: @user.id})
             cookies.signed[:Authorized] = {value: token, httponly: true}
-            render json: {status: 'SUCCESS', message: 'user logged in', data: @user, token: token}, status: :ok
+            render json: {status: 'SUCCESS', message: 'user logged in', data: @user}, status: :ok
         else
             render json: {status: 'ERROR', message: 'failed to log in', data: []}, status: :unprocessable_entity
+        end
+    end
+
+    def update
+        authorised
+        if @user.update(user_data_params)
+            render json: {status: 'SUCCESS', message: 'sort order updated', data: @user}, status: :ok
+        else
+            render json: {status: 'ERROR', mesaage: 'sort order not updated', data: @user.errors}, status: :unprocessable_entity
         end
     end
 
@@ -47,6 +60,10 @@ class UsersController < ApplicationController
 
     def user_params
         params.permit(:email, :password)
+    end
+
+    def user_data_params
+        params.permit(:date_sort_ascending)
     end
 
 end
