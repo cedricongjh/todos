@@ -1,6 +1,6 @@
 import React from 'react'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
-import { dateConverter } from '../../../../utils/dateConverter'
+import { dateConverter } from '../../../../utils/dateHandling'
 
 // this component was created using react-day-picker, look at their documentation for a detailed API.
 

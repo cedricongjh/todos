@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react'
+
 import axios, { AxiosResponse }  from 'axios'
+
+import TodoControl from './todoControl'
 import TodoItem from './todoItem'
 import TodoForm from './forms/todoForm'
+
+import { insertTodo } from '../../utils/dateHandling'
 import { Todo, Category } from '../../interfaces/todo.interfaces'
-import TodoControl from './todoControl'
+
 
 const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>}> = 
   ({setLoggedIn}) => {
@@ -42,7 +47,15 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
   const handleSubmit = (payload: Todo) => {
     axios.post('/todos', {...payload}).then((resp: any) => {
       setTodos(() => {
-        return [...todos, resp.data.data]
+        if (resp.data.data.due) {
+          return insertTodo(todos, resp.data.data, dateOrder)
+        } else {
+          if (dateOrder) {
+            return [resp.data.data, ...todos]
+          } else {
+            return [...todos, resp.data.data]
+          }
+        }
       })
       setFormTodo({text: '', due: '', completed: false, category_id: undefined})
     })

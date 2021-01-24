@@ -8,7 +8,7 @@ import DateRange from './forms/inputs/dateRange'
 import MultiCategorySelector from './forms/inputs/multiCategorySelector'
 import CategoryEditor from './forms/inputs/categoryEditor'
 
-import { dateConverter } from '../../utils/dateConverter'
+import { dateConverter } from '../../utils/dateHandling'
 import { Todo, Category } from '../../interfaces/todo.interfaces'
 
 
