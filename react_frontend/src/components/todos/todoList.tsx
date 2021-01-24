@@ -106,17 +106,15 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
   return (
   <div className="todo-list">
 
-    <div>
-       <TodoControl 
-        todos={todos} 
-        categories={categories}
-        filter={filter} 
-        setDisplayedTodos={setDisplayedTodos}
-        handleCreateCategory={handleCreateCategory}
-        handleUpdateCategory={handleUpdateCategory}
-        handleDeleteCategory={handleDeleteCategory}
-        handleLogout={logout} />
-    </div>
+    <TodoControl 
+      todos={todos} 
+      categories={categories}
+      filter={filter} 
+      setDisplayedTodos={setDisplayedTodos}
+      handleCreateCategory={handleCreateCategory}
+      handleUpdateCategory={handleUpdateCategory}
+      handleDeleteCategory={handleDeleteCategory}
+      handleLogout={logout} />
   
     {displayedTodos.map(todo => 
     <TodoItem

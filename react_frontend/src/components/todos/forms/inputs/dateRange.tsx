@@ -71,7 +71,7 @@ const DateRange: React.FC<
         format={format} 
         inputProps={{readOnly: true}}
         placeholder={fromPlaceholder}
-        onDayChange={(day: Date) => {setOptions({...currentOptions, fromDate: day.toDateString()})}}
+        onDayChange={(day: Date) => {setOptions({...currentOptions, fromDate: day.toISOString().substring(0, 10)})}}
         dayPickerProps={{modifiers: selectedModifiers, disabledDays: disabledfromDays}} />
 
       <DayPickerInput 
@@ -79,7 +79,7 @@ const DateRange: React.FC<
         format={format} 
         inputProps={{readOnly: true}}
         placeholder={toPlaceholder}
-        onDayChange={(day: Date) => {setOptions({...currentOptions, toDate: day.toDateString()})}}
+        onDayChange={(day: Date) => {setOptions({...currentOptions, toDate:day.toISOString().substring(0, 10)})}}
         dayPickerProps={{modifiers: selectedModifiers, disabledDays: disabledtoDays}} />
         
     </div>

@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import 'react-day-picker/lib/style.css'
 
 import DayPickerInput from 'react-day-picker/DayPickerInput'
@@ -85,8 +85,8 @@ const TodoForm: React.FC<{
               format="YYYY-MM-DD" 
               placeholder="Click to select a date"
               inputProps={{readOnly: true}} 
-              onDayChange={(day: Date) => {handleUpdate({...todo}, 'due', day.toDateString())
-                                          debouncedUpdate({...todo, 'due': day.toDateString()})}}/>
+              onDayChange={(day: Date) => {handleUpdate({...todo}, 'due', day.toISOString().substring(0, 10))
+                                          debouncedUpdate({...todo, 'due': day.toISOString().substring(0, 10)})}}/>
 
             {todo.id ? <button onClick={e => {e.preventDefault(); handleDelete({...todo})}}>DELETE</button> : <button>SAVE</button>}
             </div>
