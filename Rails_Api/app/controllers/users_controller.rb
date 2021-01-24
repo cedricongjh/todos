@@ -15,10 +15,10 @@ class UsersController < ApplicationController
     def index
         authorised
         if @user
-            if !@user.date_sort_ascending || @user.date_sort_ascending == nil
-                todos = @user.todos.order('due DESC')
-            else
+            if @user.date_sort_ascending || @user.date_sort_ascending == nil
                 todos = @user.todos.order('due ASC')
+            else
+                todos = @user.todos.order('due DESC')
             end
             categories = @user.categories.all
             render json: {status: 'SUCCESS', message: 'fetched user data', data: {todos: todos, categories: categories, date_sort_ascending: @user.date_sort_ascending}}, status: :ok
