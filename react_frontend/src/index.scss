@@ -134,6 +134,7 @@ code {
 
 .DayPickerInput{
   height: 36px;
+  width: 200px;
 }
 
 .DayPickerInput > input {
@@ -142,6 +143,7 @@ code {
   -webkit-appearance: none;
   border: 0;
   outline: 0;
+  text-align: center;
 }
 
 // styling for color picker component
