@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import TodoForm from './forms/todoForm'
-import TodoDisplay from './todoDisplay'
 
 const TodoItem: React.FC<
   {todo: any, 
@@ -20,16 +19,15 @@ const TodoItem: React.FC<
 
     return(
     <div>
-<TodoForm
-            todo={todo}
-            setEdit={setEdit} 
-            categories={categories} 
-            handleSubmit={handleSubmit}
-            handleUpdate={handleUpdate}
-            handleDelete={handleDelete}
-            createCategory={createCategory}
-          /> 
-
+      <TodoForm
+        todo={todo}
+        setEdit={setEdit} 
+        categories={categories} 
+        handleSubmit={handleSubmit}
+        handleUpdate={handleUpdate}
+        handleDelete={handleDelete}
+        createCategory={createCategory}
+      /> 
     </div>
     )
 
