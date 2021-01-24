@@ -10,9 +10,34 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
 
   const [todos, setTodos] = useState<Todo[]>([])
   const [displayedTodos, setDisplayedTodos] = useState<Todo[]>([])
-  const [filter, setFilter] = useState(false)
-  const [categories, setCategories] = useState<Category[]>([])
   const [formtodo, setFormTodo] = useState<Todo>({text: '', due: '', completed: false, category_id: undefined})
+
+  const [categories, setCategories] = useState<Category[]>([])
+
+
+  const [filter, setFilter] = useState(false)
+  const [dateOrder, setDateOrder] = useState<boolean>(true)
+
+  // trigger filtering when todos update
+  useEffect(() => {
+    setDisplayedTodos([...todos])
+    setFilter(f => !f)
+  }, [todos])
+  
+  // fetch user data upon mounting
+  useEffect(() => {
+    axios.get('/user').then((resp: any) => {
+      let todos = resp.data.data['todos']
+      setTodos(todos)
+      let categories = resp.data.data['categories']
+      setCategories(categories)
+      setDateOrder(resp.data.data['date_sort_ascending'])
+    }).catch(err => {
+      console.log(err)
+      setTodos([])
+      setCategories([])
+    })
+  }, [])
 
   const handleSubmit = (payload: Todo) => {
     axios.post('/todos', {...payload}).then((resp: any) => {
@@ -77,31 +102,17 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
 
   }
 
+  const handleChangeSortOrder = (value: boolean) => {
+    setTodos([...todos].reverse())
+    setDateOrder(value)
+    axios.put('/user', {'date_sort_ascending': value})
+  }
+
   const logout = () => {
       axios.post('logout').then((resp: AxiosResponse<any>) => {
         setLoggedIn(false)
       })
   }
-
-  // trigger filtering when todos update
-  useEffect(() => {
-    setDisplayedTodos([...todos])
-    setFilter(f => !f)
-  }, [todos])
-
-  // fetch user data upon mounting
-  useEffect(() => {
-    axios.get('/user').then((resp: any) => {
-      let todos = resp.data.data['todos']
-      setTodos(todos)
-      let categories = resp.data.data['categories']
-      setCategories(categories)
-    }).catch(err => {
-      console.log(err)
-      setTodos([])
-      setCategories([])
-    })
-  }, [])
 
   return (
   <div className="todo-list">
@@ -109,11 +120,13 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
     <TodoControl 
       todos={todos} 
       categories={categories}
-      filter={filter} 
+      filter={filter}
+      dateOrder={dateOrder} 
       setDisplayedTodos={setDisplayedTodos}
       handleCreateCategory={handleCreateCategory}
       handleUpdateCategory={handleUpdateCategory}
       handleDeleteCategory={handleDeleteCategory}
+      handleChangeSortOrder={handleChangeSortOrder}
       handleLogout={logout} />
   
     {displayedTodos.map(todo => 

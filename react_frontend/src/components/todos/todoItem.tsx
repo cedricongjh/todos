@@ -33,5 +33,4 @@ const TodoItem: React.FC<
 
 }
 
-
 export default TodoItem

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { IconContext } from 'react-icons'
 import { FiFilter, FiSettings, FiLogOut } from 'react-icons/fi'
 
+import Select from 'react-select'
 import DateRange from './forms/inputs/dateRange'
 import MultiCategorySelector from './forms/inputs/multiCategorySelector'
 import CategoryEditor from './forms/inputs/categoryEditor'
@@ -20,17 +21,19 @@ type optionsForm = {
 }
 
 const TodoControl: React.FC<
-    {todos: Todo[], 
-     categories: Category[], 
-     setDisplayedTodos: React.Dispatch<React.SetStateAction<Todo[]>>
+    {todos: Todo[]
+     categories: Category[]
      filter: boolean
+     dateOrder: boolean
+     setDisplayedTodos: React.Dispatch<React.SetStateAction<Todo[]>>
      handleCreateCategory(category: string, color?: string, todo?: Todo): void
      handleUpdateCategory(category: Category): void
      handleDeleteCategory(category: Category): void
+     handleChangeSortOrder(value: boolean):void
      handleLogout():void}
     > = 
     
-    ({todos, categories, setDisplayedTodos, handleUpdateCategory, handleCreateCategory, handleDeleteCategory, filter, handleLogout}) => {
+    ({todos, categories, filter, dateOrder, setDisplayedTodos, handleUpdateCategory, handleCreateCategory, handleDeleteCategory, handleChangeSortOrder, handleLogout}) => {
 
     const [options, setOptions] = useState<optionsForm>({completed: true, categories: [], fromDate: '', toDate: '', searchStr: ''})
 
@@ -209,7 +212,7 @@ const TodoControl: React.FC<
         <div className="settings-modal">
           <div className="settings-content">
           <h3>Settings</h3>
-          <span>Categories: </span>
+          <h4>Categories: </h4>
           {categories.map(category => {
             return (<CategoryEditor 
                       category={category} 
@@ -233,6 +236,13 @@ const TodoControl: React.FC<
                           setNewCategory={setNewCategory}/>
                       </div>
                    : <button onClick={() => {setShowNew(true)}}>+</button>}
+          <h4>Date: </h4>
+            <label htmlFor="sortingOrder">Sorting order:</label>
+            <Select isClearable={false}
+                    name="sortingOrder"
+                    options={[{label: "Earliest date first", value: 1}, {label: "Latest date first", value: 0}]}
+                    value={dateOrder ? {label: "Earliest date first", value: 1} : {label: "Latest date first", value: 0}}
+                    onChange={value => value?.value ? handleChangeSortOrder(true) : handleChangeSortOrder(false)} />
           <div>
             <button onClick={e => {setShowSettings(false)}}>OK</button>
           </div>
