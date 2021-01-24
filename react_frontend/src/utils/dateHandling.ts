@@ -9,8 +9,8 @@ export const insertTodo = (todos: any[], todo: any, ascending: boolean) => {
     let insertedIdx = 0
     let res = [...todos]
 
-    if (todo.due) {
-        while (!todos[insertedIdx].due) {
+    if (todo && todo.due) {
+        while (res[insertedIdx] && !res[insertedIdx].due) {
             insertedIdx++
         }
         if (ascending) {
