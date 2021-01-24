@@ -8,6 +8,7 @@ import DateRange from './forms/inputs/dateRange'
 import MultiCategorySelector from './forms/inputs/multiCategorySelector'
 import CategoryEditor from './forms/inputs/categoryEditor'
 
+import useLocalStorage from '../../utils/useLocalStorage'
 import { dateConverter } from '../../utils/dateHandling'
 import { Todo, Category } from '../../interfaces/todo.interfaces'
 
@@ -35,7 +36,7 @@ const TodoControl: React.FC<
     
     ({todos, categories, filter, dateOrder, setDisplayedTodos, handleUpdateCategory, handleCreateCategory, handleDeleteCategory, handleChangeSortOrder, handleLogout}) => {
 
-    const [options, setOptions] = useState<optionsForm>({completed: true, categories: [], fromDate: '', toDate: '', searchStr: ''})
+    const [options, setOptions] = useLocalStorage('filterSettings', {completed: true, categories: [], fromDate: '', toDate: '', searchStr: ''})
 
     const categoryOptions = categories.map((category: any) => {return {value: category.id, label: category.name, color: category.color}})
 
