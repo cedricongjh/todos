@@ -16,14 +16,21 @@ const App: React.FC = () => {
   })
   
   useEffect(() => {
+    setLoading(true)
     axios.get('/logged_in').then(resp => {
       if (resp.data.status === "SUCCESS") {
         setLoggedIn(true)
       }
-    })
+      setLoading(false)
+    }).catch(err => {
+      setLoading(false)
+    }).finally(() => {
+      setLoading(false)
+  })
   }, [])
 
   const [loggedIn, setLoggedIn] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   return (
     <Router>
@@ -32,10 +39,10 @@ const App: React.FC = () => {
           {loggedIn ? <TodoList setLoggedIn={setLoggedIn}/> : <Redirect to="/login" />}
         </Route>
         <Route path="/login">
-          {loggedIn ? <Redirect to="/" /> : <Login setLoggedIn={setLoggedIn}/>}
+          {loggedIn ? <Redirect to="/" /> : <Login setLoggedIn={setLoggedIn} loading={loading} setLoading={setLoading} />}
         </Route>
         <Route path="/register">
-          {loggedIn ? <Redirect to="/" /> : <Register setLoggedIn={setLoggedIn}/>}
+          {loggedIn ? <Redirect to="/" /> : <Register setLoggedIn={setLoggedIn} loading={loading} setLoading={setLoading} />}
         </Route>
       </Switch>
     </Router>

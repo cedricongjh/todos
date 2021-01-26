@@ -6,9 +6,9 @@ import axios from 'axios'
 import { IconContext } from 'react-icons'
 import { FiLogIn } from 'react-icons/fi'
 
-const Login: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>}> 
+const Login: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>, loading: boolean, setLoading: React.Dispatch<React.SetStateAction<boolean>>}> 
     
-    = ({setLoggedIn}) => {
+    = ({setLoggedIn, loading, setLoading}) => {
   
     const [form, setForm] = useState({'email': '', 'password': ''})
     const [error, setError] = useState('')
@@ -20,17 +20,21 @@ const Login: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boolean>
     const handleSubmit = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.preventDefault()
         setError('')
+        setLoading(true)
         axios.post('/login', {...form}).then(resp => {
+            setLoading(false)
             if (resp.data.status === "SUCCESS") {
                 setLoggedIn(true)
             }
         }).catch((reason: any) => {
+            setLoading(false)
             setError('Incorrect Username/Password!')
         })
     }
 
     return (
     <div className="login-container">
+      {!loading ?
       <div className="login-card">
           <h3>Welcome!</h3>
           <div>
@@ -56,6 +60,7 @@ const Login: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boolean>
           </div>
           <div>Don't have an account? <Link to="/register">Register Here</Link></div>
       </div>
+      : null}
     </div>    
     )
 }

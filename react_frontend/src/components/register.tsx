@@ -13,8 +13,8 @@ interface RegistrationForm {
     confirmPassword: string
 }
 
-const Register: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>}> = 
-    ({setLoggedIn}) => {
+const Register: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>, loading: boolean, setLoading: React.Dispatch<React.SetStateAction<boolean>>}> = 
+    ({setLoggedIn, loading, setLoading}) => {
 
     const registerValidation = yup.object().shape({
         email: yup.string().email('Please enter a valid email.').required('Email required.'),
@@ -55,11 +55,13 @@ const Register: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
 
     const handleSubmit = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => { 
         e.preventDefault()
+        setLoading(true)
         setFocus({'email': true, 'password': true, 'confirmPassword': true})
         axios.post('/users', {...form, date_sort_ascending: true}).then(resp => {
             if (resp.data.status === "SUCCESS") {
                 setLoggedIn(true)
             }
+            setLoading(false)
         }).catch((error: any) => {
             const newErrors: RegistrationForm = {'email': '', 'password': '', 'confirmPassword': ''}
             const errors: RegistrationForm = error.response.data.data
@@ -68,6 +70,9 @@ const Register: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
                 newErrors[k] = errors[k] ? k + ' ' + errors[k][0] : ''
             }
             setErrors({...newErrors})
+            setLoading(false)
+        }).finally(() => {
+            setLoading(false)
         })
     }
 
