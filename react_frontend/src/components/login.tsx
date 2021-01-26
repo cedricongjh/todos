@@ -42,9 +42,9 @@ const Login: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boolean>
                 <div className="login-button-container">
                   <div className="login-icon" onClick={e => {handleSubmit(e)}}>
                   Login
-                  <IconContext.Provider value={{ className: "menu-icon-logo" }} >
-                    <FiLogIn />
-                  </IconContext.Provider>
+                    <IconContext.Provider value={{ className: "menu-icon-logo" }} >
+                      <FiLogIn />
+                    </IconContext.Provider>
                   </div>
                 </div>
             </form>

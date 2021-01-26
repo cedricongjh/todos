@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
+
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import * as yup from 'yup'
+
+import { IconContext } from 'react-icons'
+import { FiLogIn } from 'react-icons/fi'
 
 interface RegistrationForm {
     email: string,
@@ -32,8 +36,6 @@ const Register: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
               setDisabled(false)
             }).catch(err => {
             if (err && err.inner) {
-                console.log(err)
-                console.log(form)
                 const newErrors: RegistrationForm = {'email': '', 'password': '', 'confirmPassword': ''}
                 const errs = err.inner
                 errs.forEach((error: {path: 'email'|'password'|'confirmPassword', message: string}) => {
@@ -51,8 +53,9 @@ const Register: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
         setFocus({...focus, [e.target.name]: true})
     } 
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => { 
+    const handleSubmit = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => { 
         e.preventDefault()
+        setFocus({'email': true, 'password': true, 'confirmPassword': true})
         axios.post('/users', {...form, date_sort_ascending: true}).then(resp => {
             if (resp.data.status === "SUCCESS") {
                 setLoggedIn(true)
@@ -69,42 +72,53 @@ const Register: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
     }
 
     return (
-    <div>
-        <div>
-            <form onSubmit={handleSubmit}>
+    <div className="login-container">
+        <div className="login-card">
+            <h3>Sign up</h3>
+            <form>
 
-            <label htmlFor="email">Email: </label>
+            <div className="login-field-container">
             <input type="text" 
                    name="email" 
                    placeholder="Enter your email" 
                    value={form.email} 
                    onChange={updateForm} 
                    onFocus={updateFocus} />
-            <p>{focus.email ? errors.email : null}</p>
+            <p className="login-error">{focus.email ? errors.email : null}</p>
+            </div>
 
-            <label htmlFor="password">Password: </label>
+            <div className="login-field-container">
             <input type="password" 
                    name="password" 
                    placeholder="Enter your password" 
                    value={form.password} 
                    onChange={updateForm} 
                    onFocus={updateFocus}/>
-            <p>{focus.password ? errors.password : null}</p>
+            <p className="login-error">{focus.password ? errors.password : null}</p>
+            </div>
 
-            <label htmlFor="password">Confirm Password: </label>
+            <div className="login-field-container">
             <input type="password" 
                    name="confirmPassword" 
                    placeholder="Enter your password again." 
                    value={form.confirmPassword} 
                    onChange={updateForm} 
                    onFocus={updateFocus}/>
-            <p>{focus.confirmPassword ? errors.confirmPassword : null}</p>
+            <p className="login-error">{focus.confirmPassword ? errors.confirmPassword : null}</p>
+            </div>
 
-            <button disabled={disabled}>Register</button>
+            <div className="login-button-container">
+                <div className={"login-icon" + (disabled ? ' login-icon-disabled' : '')} onClick={e => {if (!disabled) {handleSubmit(e)}}}>
+                  Register
+                  <IconContext.Provider value={{ className: "menu-icon-logo" }} >
+                    <FiLogIn />
+                  </IconContext.Provider>
+                </div>
+            </div>
 
             </form>
+            <div>Already have an account? <Link to="/login">login here</Link></div>
         </div>
-        <div>Already have an account? <Link to="/login">login here</Link></div>
     </div>
     )
 

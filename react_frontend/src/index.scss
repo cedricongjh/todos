@@ -292,7 +292,7 @@ code {
   border-radius: 5px;
 }
 
-.login-button-container{
+.login-button-container {
   display: flex;
   justify-content: flex-end;
 }
@@ -310,6 +310,15 @@ code {
 
 .login-error{
   color: red;
+}
+
+.login-icon-disabled {
+  color: lightgrey;
+  text-decoration: line-through;
+}
+
+.login-icon-diabled:hover {
+  background-color: none;
 }
 
 // styling for checkboxes and radio button from css-tricks
