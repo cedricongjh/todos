@@ -50,7 +50,7 @@ const TodoForm: React.FC<{
     return(
       
         <form>
-          <div className={"todo-list-row"  + (index % 2 === 0 ? ' todo-list-row-gray-background' : '')} >
+          <div className={"todo-list-row"  + (index % 2 !== 0 ? ' todo-list-row-gray-background' : '')} >
             <div className="todo-list-item">
               <input 
                 type="checkbox"
@@ -60,7 +60,7 @@ const TodoForm: React.FC<{
 
               <TextareaAutosize
                 placeholder={todo.id ? "" : "Enter a todo here"}
-                className={"todo-list-text-input"   + (index % 2 === 0 ? ' todo-list-row-gray-background' : '')}
+                className="todo-list-text-input"
                 value={text}
                 ref={textInput} 
                 onChange={e => {setText(e.target.value)

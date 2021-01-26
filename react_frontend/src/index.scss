@@ -139,6 +139,7 @@ code {
 
 .settings-content {
   background-color: #fefefe;
+  min-width: 300px;
   margin: 15% auto; 
   padding: 20px;
   border: 1px solid #888;
@@ -192,6 +193,7 @@ code {
   width: 75%;
   resize: none;
   font-size: 1.5em;
+  background-color: inherit;
 }
 
 .todo-list-category-input {
@@ -286,7 +288,8 @@ code {
 
 .login-field-container > input {
   height: 36px;
-  width: 95%;
+  width: 98%;
+  border-radius: 5px;
 }
 
 .login-button-container{
