@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import { IconContext } from 'react-icons'
-import { FiFilter, FiSettings, FiLogOut, FiSearch, FiSlash, FiX, FiMinusCircle, FiPlusCircle } from 'react-icons/fi'
+import { FiFilter, FiSettings, FiLogOut, FiSearch, FiSlash, FiX, FiMinusCircle, FiPlusCircle, FiCheckSquare, FiRefreshCw } from 'react-icons/fi'
 
 import Select from 'react-select'
 import DateRange from './forms/inputs/dateRange'
@@ -18,6 +18,7 @@ const TodoControl: React.FC<
     categories: Category[]
     filter: boolean
     dateOrder: boolean
+    saving: boolean
     setDisplayedTodos: React.Dispatch<React.SetStateAction<Todo[]>>
     handleCreateCategory(category: string, color?: string, todo?: Todo): void
     handleUpdateCategory(category: Category): void
@@ -27,7 +28,7 @@ const TodoControl: React.FC<
   }
 > =
 
-  ({ todos, categories, filter, dateOrder, setDisplayedTodos, handleUpdateCategory, handleCreateCategory, handleDeleteCategory, handleChangeSortOrder, handleLogout }) => {
+  ({ todos, categories, filter, dateOrder, saving, setDisplayedTodos, handleUpdateCategory, handleCreateCategory, handleDeleteCategory, handleChangeSortOrder, handleLogout }) => {
 
     const [options, setOptions] = useLocalStorage('filterSettings', { completed: true, categories: [], fromDate: '', toDate: '', searchStr: '' })
 
@@ -136,7 +137,16 @@ const TodoControl: React.FC<
         {/* menu component */}
         <div className="menu">
           <div className="menu-header">
-            <h2>Welcome to your to-do list</h2>
+            <div className="menu-header-container">
+              <h2 style={{marginRight: '5px'}}>Welcome to your to-do list</h2>
+              {saving 
+                ? <IconContext.Provider value={{ className: "menu-search-icon menu-refresh-icon" }} >
+                    <FiRefreshCw />
+                  </IconContext.Provider>
+                : <IconContext.Provider value={{ className: "menu-search-icon" }} >
+                    <FiCheckSquare/>
+                  </IconContext.Provider>}
+            </div>
             <div className="menu-search-bar">
               <IconContext.Provider value={{ className: "menu-search-icon" }} >
                 <FiSearch />

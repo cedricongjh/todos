@@ -30,6 +30,21 @@ code {
   flex-direction: column;
 }
 
+.menu-header-container {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.menu-refresh-icon {
+  animation: turn 2s linear infinite;
+}
+
+@keyframes turn {
+  0% {transform: rotate(0deg);}
+  100% {transform: rotate(360deg);}
+}
+
 .menu-search-bar {
   display: flex;
   align-content: center;

@@ -26,6 +26,7 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
   const [dateOrder, setDateOrder] = useState<boolean>(true)
 
   const [fetching, setFetching] = useState(false)
+  const [saving, setSaving] = useState(false)
 
   // trigger filtering when todos update
   useEffect(() => {
@@ -52,6 +53,7 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
   }, [])
 
   const handleSubmit = (payload: Todo) => {
+    setSaving(true)
     axios.post('/todos', {...payload}).then((resp: any) => {
       setTodos(() => {
         if (resp.data.data.due) {
@@ -65,6 +67,8 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
         }
       })
       setFormTodo({text: '', due: '', completed: false, category_id: undefined})
+    }).finally(() => {
+      setSaving(false)
     })
   }
 
@@ -148,7 +152,8 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
       todos={todos} 
       categories={categories}
       filter={filter}
-      dateOrder={dateOrder} 
+      dateOrder={dateOrder}
+      saving={saving}
       setDisplayedTodos={setDisplayedTodos}
       handleCreateCategory={handleCreateCategory}
       handleUpdateCategory={handleUpdateCategory}
@@ -174,7 +179,7 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
       </div>
     </div>}
 
-    <TodoForm 
+    {!saving ? <TodoForm 
       handleSubmit={handleSubmit} 
       handleUpdate={handleUpdate} 
       createCategory={handleCreateCategory} 
@@ -182,8 +187,8 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
       categories={categories} 
       todo={formtodo}
       index={displayedTodos.length} 
-      setEdit={null} />
-  
+      setEdit={null} /> : null}
+
   </div>
   )
 }
