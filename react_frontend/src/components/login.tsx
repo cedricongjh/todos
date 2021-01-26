@@ -6,6 +6,8 @@ import axios from 'axios'
 import { IconContext } from 'react-icons'
 import { FiLogIn } from 'react-icons/fi'
 
+import ClipLoader from "react-spinners/ClipLoader"
+
 const Login: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>, loading: boolean, setLoading: React.Dispatch<React.SetStateAction<boolean>>}> 
     
     = ({setLoggedIn, loading, setLoading}) => {
@@ -60,7 +62,10 @@ const Login: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boolean>
           </div>
           <div>Don't have an account? <Link to="/register">Register Here</Link></div>
       </div>
-      : null}
+      : <div className="loading-container">
+          <ClipLoader />
+          Loading....
+        </div>}
     </div>    
     )
 }

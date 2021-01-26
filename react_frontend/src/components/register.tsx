@@ -7,6 +7,8 @@ import * as yup from 'yup'
 import { IconContext } from 'react-icons'
 import { FiLogIn } from 'react-icons/fi'
 
+import ClipLoader from "react-spinners/ClipLoader"
+
 interface RegistrationForm {
     email: string,
     password: string,
@@ -78,7 +80,7 @@ const Register: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
 
     return (
     <div className="login-container">
-        <div className="login-card">
+        {!loading ? <div className="login-card">
             <h3>Sign up</h3>
             <form>
 
@@ -124,6 +126,11 @@ const Register: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
             </form>
             <div>Already have an account? <Link to="/login">login here</Link></div>
         </div>
+        : 
+        <div className="loading-container">
+          <ClipLoader />
+          Signing Up...
+        </div>}
     </div>
     )
 

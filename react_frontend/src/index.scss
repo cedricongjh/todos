@@ -321,6 +321,12 @@ code {
   background-color: none;
 }
 
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 // styling for checkboxes and radio button from css-tricks
 @supports(-webkit-appearance: none) or (-moz-appearance: none) {
   input[type='checkbox'],
