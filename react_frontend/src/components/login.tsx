@@ -11,6 +11,7 @@ const Login: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boolean>
     = ({setLoggedIn}) => {
   
     const [form, setForm] = useState({'email': '', 'password': ''})
+    const [error, setError] = useState('')
 
     const updateForm = (e :React.ChangeEvent<HTMLInputElement>) => {
         setForm({...form, [e.target.name]: e.target.value})
@@ -18,12 +19,13 @@ const Login: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boolean>
 
     const handleSubmit = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.preventDefault()
+        setError('')
         axios.post('/login', {...form}).then(resp => {
             if (resp.data.status === "SUCCESS") {
                 setLoggedIn(true)
             }
         }).catch((reason: any) => {
-            console.log(reason.message)
+            setError('Incorrect Username/Password!')
         })
     }
 
@@ -39,6 +41,9 @@ const Login: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boolean>
                 <div className="login-field-container">
                   <input type="password" name="password" placeholder="Password" value={form.password} onChange={updateForm}/>
                 </div>
+
+                <div className="login-error">{error}</div>
+
                 <div className="login-button-container">
                   <div className="login-icon" onClick={e => {handleSubmit(e)}}>
                   Login
