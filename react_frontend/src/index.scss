@@ -264,6 +264,50 @@ code {
   border: 0.5px solid black;
 }
 
+// styling for login and registration form
+.login-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  margin-top: 20vh;
+  width: 50%;
+}
+
+.login-card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  width: 350px;
+  padding: 1em;
+}
+
+.login-field-container{
+  padding-bottom: 0.5em;
+}
+
+.login-field-container > input {
+  height: 36px;
+  width: 95%;
+}
+
+.login-button-container{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.login-icon {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.login-icon:hover{
+  background-color: lightgrey;
+  cursor: pointer;
+}
+
+.login-error{
+  color: red;
+}
 
 // styling for checkboxes and radio button from css-tricks
 @supports(-webkit-appearance: none) or (-moz-appearance: none) {
