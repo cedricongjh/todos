@@ -209,6 +209,18 @@ code {
   flex-direction: row;
 }
 
+.todo-list-loading-indicator {
+  display: flex;
+  justify-content: center;
+}
+
+.todo-list-loading-indicator-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+// styling for date picker
 .DayPickerInput{
   height: 36px;
   width: 200px;

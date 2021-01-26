@@ -6,6 +6,8 @@ import TodoControl from './todoControl'
 import TodoItem from './todoItem'
 import TodoForm from './forms/todoForm'
 
+import BeatLoader from "react-spinners/BeatLoader"
+
 import { insertTodo } from '../../utils/dateHandling'
 import { Todo, Category } from '../../interfaces/todo.interfaces'
 
@@ -23,6 +25,8 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
   const [filter, setFilter] = useState(false)
   const [dateOrder, setDateOrder] = useState<boolean>(true)
 
+  const [fetching, setFetching] = useState(false)
+
   // trigger filtering when todos update
   useEffect(() => {
     setDisplayedTodos([...todos])
@@ -31,16 +35,19 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
   
   // fetch user data upon mounting
   useEffect(() => {
+    setFetching(true)
     axios.get('/user').then((resp: any) => {
       let todos = resp.data.data['todos']
       setTodos(todos)
       let categories = resp.data.data['categories']
       setCategories(categories)
       setDateOrder(resp.data.data['date_sort_ascending'])
+      setFetching(false)
     }).catch(err => {
       console.log(err)
       setTodos([])
       setCategories([])
+      setFetching(false)
     })
   }, [])
 
@@ -149,7 +156,7 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
       handleChangeSortOrder={handleChangeSortOrder}
       handleLogout={logout} />
   
-    {displayedTodos.map((todo, index) => 
+    {!fetching ? displayedTodos.map((todo, index) => 
     <TodoItem
       key={todo.id || ''} 
       todo={todo}
@@ -159,7 +166,13 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
       handleSubmit={handleSubmit}
       handleDelete={handleDelete}
       createCategory={handleCreateCategory} 
-    />)}
+    />) : 
+    <div className = "todo-list-loading-indicator">
+      <div className="todo-list-loading-indicator-container">
+        <BeatLoader />
+        Getting your todos...
+      </div>
+    </div>}
 
     <TodoForm 
       handleSubmit={handleSubmit} 
