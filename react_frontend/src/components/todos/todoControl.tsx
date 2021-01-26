@@ -158,21 +158,21 @@ const TodoControl: React.FC<
           </div>
 
           <div className="menu-icons">
-            <div onClick={() => { setShowFilter(!showFilter) }} className="menu-icon">
+            <div onClick={() => { setShowFilter(!showFilter) }} className="menu-icon menu-icon-top">
               Filters
               <IconContext.Provider value={{ className: "menu-icon-logo" }}>
                 <FiFilter />
               </IconContext.Provider>
             </div>
 
-            <div onClick={() => { setShowSettings(!showSettings) }} className="menu-icon">
+            <div onClick={() => { setShowSettings(!showSettings) }} className="menu-icon menu-icon-top">
               Settings
               <IconContext.Provider value={{ className: "menu-icon-logo" }}>
                 <FiSettings />
               </IconContext.Provider>
             </div>
 
-            <div onClick={handleLogout} className="menu-icon">
+            <div onClick={handleLogout} className="menu-icon menu-icon-top">
               Logout
               <IconContext.Provider value={{ className: "menu-icon-logo" }} >
                 <FiLogOut />

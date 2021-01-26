@@ -21,9 +21,10 @@ const TodoForm: React.FC<{
   todo: Todo, 
   handleUpdate: ((todo: Todo, property: string, newValue: any) => void), 
   setEdit: any
+  setSaving: React.Dispatch<React.SetStateAction<boolean>>
   index: number}> =
  
-    ({handleSubmit, handleDelete, createCategory, categories, todo, handleUpdate, setEdit, index}) => {
+    ({handleSubmit, handleDelete, createCategory, categories, todo, handleUpdate, setEdit, setSaving, index}) => {
 
     const categoryOptions = categories.map((category: any) => {return {value: category.id, label: category.name, color: category.color}})
 
@@ -39,11 +40,12 @@ const TodoForm: React.FC<{
     // using lodash's debounce, delay updating state and put request to update current todos
     const debouncedUpdate = useCallback(debounce(todo => {
       if (todo.id) {
+        setSaving(true)
         axios.put(`/todos/${todo.id}`, todo).then((resp: any) => {
           if (!(textInput.current === document.activeElement)) {
             setEdit(false)
           }
-        })
+        }).finally(() => {setSaving(false)})
       }
     }, 1000), [])
 

@@ -2,15 +2,17 @@ import React, { useEffect, useState } from 'react'
 import TodoForm from './forms/todoForm'
 
 const TodoItem: React.FC<
-  {todo: any, 
-   handleSubmit: ((payload: any) => void), 
-   handleUpdate: ((todo: any, property: string, newValue: any) => void), 
-   handleDelete: ((payload: any) => void), 
-   createCategory: ((name: string, todo: any) => void), 
-   categories: any[],
-   index: number}> = 
+  {todo: any
+   index: number
+   categories: any[]
+   setSaving: React.Dispatch<React.SetStateAction<boolean>> 
+   handleSubmit: ((payload: any) => void)
+   handleUpdate: ((todo: any, property: string, newValue: any) => void)
+   handleDelete: ((payload: any) => void)
+   createCategory: ((name: string, todo: any) => void)  
+   }> = 
 
-    ({todo, handleSubmit, handleUpdate, handleDelete, createCategory, categories, index}) => {
+    ({todo, handleSubmit, handleUpdate, handleDelete, createCategory, categories, index, setSaving}) => {
 
     const [edit, setEdit] = useState<Boolean>(false)
 
@@ -28,6 +30,7 @@ const TodoItem: React.FC<
         handleUpdate={handleUpdate}
         handleDelete={handleDelete}
         createCategory={createCategory}
+        setSaving={setSaving}
         index={index}
       /> 
     </div>

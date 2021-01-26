@@ -15,18 +15,21 @@ import { Todo, Category } from '../../interfaces/todo.interfaces'
 const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>}> = 
   ({setLoggedIn}) => {
 
+  // todo state
   const [todos, setTodos] = useState<Todo[]>([])
   const [displayedTodos, setDisplayedTodos] = useState<Todo[]>([])
   const [formtodo, setFormTodo] = useState<Todo>({text: '', due: '', completed: false, category_id: undefined})
 
   const [categories, setCategories] = useState<Category[]>([])
 
-
+  // state used to trigger actions
   const [filter, setFilter] = useState(false)
   const [dateOrder, setDateOrder] = useState<boolean>(true)
 
+  // state used to set loading indicators
   const [fetching, setFetching] = useState(false)
   const [saving, setSaving] = useState(false)
+  const [adding, setAdding] = useState(false)
 
   // trigger filtering when todos update
   useEffect(() => {
@@ -54,6 +57,7 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
 
   const handleSubmit = (payload: Todo) => {
     setSaving(true)
+    setAdding(true)
     axios.post('/todos', {...payload}).then((resp: any) => {
       setTodos(() => {
         if (resp.data.data.due) {
@@ -69,6 +73,7 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
       setFormTodo({text: '', due: '', completed: false, category_id: undefined})
     }).finally(() => {
       setSaving(false)
+      setAdding(false)
     })
   }
 
@@ -167,6 +172,7 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
       todo={todo}
       index={index}
       categories={categories}
+      setSaving={setSaving}
       handleUpdate={handleUpdate}
       handleSubmit={handleSubmit}
       handleDelete={handleDelete}
@@ -179,13 +185,14 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
       </div>
     </div>}
 
-    {!saving ? <TodoForm 
+    {!adding ? <TodoForm 
       handleSubmit={handleSubmit} 
       handleUpdate={handleUpdate} 
       createCategory={handleCreateCategory} 
       handleDelete={handleDelete} 
       categories={categories} 
       todo={formtodo}
+      setSaving={setSaving}
       index={displayedTodos.length} 
       setEdit={null} /> : null}
 
