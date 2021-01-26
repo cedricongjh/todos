@@ -19,13 +19,25 @@ code {
 .menu {
   display: flex;
   flex-direction: row;
-  width: 90%;
+  margin: auto;
+  padding-right: 2em;
+  padding-bottom: 1em;
   justify-content: space-between;
 }
 
 .menu-header {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+}
+
+.menu-search-bar {
+  display: flex;
+  align-content: center;
+}
+
+.menu-search-icon {
+  width: 20px;
+  height: 20px;
 }
 
 // styling for menu icons
@@ -57,6 +69,54 @@ code {
   background-color: lightgrey;
 }
 
+// styling for filter
+.filter-container{
+  margin-bottom: 0.5em;
+  padding: 0.2em;
+  border-bottom: 0.5px solid lightgray;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+
+.filter-first-row-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.filter-date-range-container{
+  padding-top: 3px;
+}
+
+.filter-hide-completed-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.filter-hide-completed-label {
+  padding-right: 2.5px;
+}
+
+.filter-buttons-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-right: 2em;
+}
+
+.filter-icon{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.filter-button {
+  height: 25px;
+  width: 25px;
+}
+
+
 // styling for settings
 .settings-modal {
   position: fixed; 
@@ -68,6 +128,13 @@ code {
   overflow: auto; 
   background-color: rgb(0,0,0); 
   background-color: rgba(0,0,0,0.4); 
+}
+
+.settings-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .settings-content {
@@ -83,13 +150,14 @@ code {
   flex-direction: row;
 }
 
-
 // styling for list
 .todo-list {
-  width: 70%;  
+  width: 70%;
+  font-family: Helvetica, sans-serif;  
   margin: auto;
   display: flex;
   flex-direction: column;
+  padding-bottom: 400px;
 }
 
 .todo-list-row {
@@ -97,6 +165,10 @@ code {
   justify-content: center;
   align-items: center;
   border-bottom: 1px solid lightgray;
+}
+
+.todo-list-row-gray-background {
+  background-color: #DEDEDE;
 }
 
 .todo-list-todo-header {
@@ -147,7 +219,9 @@ code {
   border: 0;
   outline: 0;
   text-align: center;
+  background-color: inherit;
 }
+
 
 // styling for color picker component
 .color-picker-button-color {
@@ -176,6 +250,18 @@ code {
   right: 0px;
   bottom: 0px;
   left: 0px;
+}
+
+// styling for date range input
+.date-range-container {
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 0.5px;
+  padding-right: 0.5px;
+}
+
+.date-range-input-container {
+  border: 0.5px solid black;
 }
 
 
@@ -314,4 +400,55 @@ code {
       --s: .5;
     }
   }
+}
+
+
+// media queries to adjust width of list for smaller devices
+@media only screen and (max-width: 900px) {
+  .todo-list {
+    width: 100%;
+  }
+
+  .DayPickerInput{
+    width: 100px;
+  }
+
+  .DayPickerInput > input {
+    width: 100px;
+  }
+
+}
+
+@media only screen and (max-width: 600px) {
+  .todo-list {
+    padding-left: 5%;
+  }
+
+
+  .todo-list-text-input {
+    font-size: 1em;
+  }
+
+  .todo-list-item {
+    min-width: 150px;
+  }
+
+  .DayPickerInput{
+    width: 80px;
+  }
+
+  .DayPickerInput > input {
+    width: 80px;
+    font-size: 0.8em;
+  }
+
+  .todo-list-category-input {
+    width: 10%;
+    min-width: 120px;
+  }
+
+  .filter-buttons-container {
+    padding-right: 0.5em;
+  }
+
 }

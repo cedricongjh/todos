@@ -149,10 +149,11 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
       handleChangeSortOrder={handleChangeSortOrder}
       handleLogout={logout} />
   
-    {displayedTodos.map(todo => 
+    {displayedTodos.map((todo, index) => 
     <TodoItem
       key={todo.id || ''} 
       todo={todo}
+      index={index}
       categories={categories}
       handleUpdate={handleUpdate}
       handleSubmit={handleSubmit}
@@ -166,7 +167,8 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
       createCategory={handleCreateCategory} 
       handleDelete={handleDelete} 
       categories={categories} 
-      todo={formtodo} 
+      todo={formtodo}
+      index={displayedTodos.length} 
       setEdit={null} />
   
   </div>

@@ -20,9 +20,10 @@ const TodoForm: React.FC<{
   categories: Category[], 
   todo: Todo, 
   handleUpdate: ((todo: Todo, property: string, newValue: any) => void), 
-  setEdit: any}> =
+  setEdit: any
+  index: number}> =
  
-    ({handleSubmit, handleDelete, createCategory, categories, todo, handleUpdate, setEdit}) => {
+    ({handleSubmit, handleDelete, createCategory, categories, todo, handleUpdate, setEdit, index}) => {
 
     const categoryOptions = categories.map((category: any) => {return {value: category.id, label: category.name, color: category.color}})
 
@@ -49,7 +50,7 @@ const TodoForm: React.FC<{
     return(
       
         <form>
-          <div className="todo-list-row">
+          <div className={"todo-list-row"  + (index % 2 === 0 ? ' todo-list-row-gray-background' : '')} >
             <div className="todo-list-item">
               <input 
                 type="checkbox"
@@ -59,7 +60,7 @@ const TodoForm: React.FC<{
 
               <TextareaAutosize
                 placeholder={todo.id ? "" : "Enter a todo here"}
-                className="todo-list-text-input"
+                className={"todo-list-text-input"   + (index % 2 === 0 ? ' todo-list-row-gray-background' : '')}
                 value={text}
                 ref={textInput} 
                 onChange={e => {setText(e.target.value)
@@ -82,20 +83,20 @@ const TodoForm: React.FC<{
 
             <div className="todo-list-date-group">
             <DayPickerInput 
-              value={todo.due} 
+              value={todo.due}
               format="YYYY-MM-DD" 
-              placeholder="Click to select a date"
+              placeholder="Select a date"
               inputProps={{readOnly: true}} 
               onDayChange={(day: Date) => {handleUpdate({...todo}, 'due', day.toISOString().substring(0, 10))
                                           debouncedUpdate({...todo, 'due': day.toISOString().substring(0, 10)})}}/>
 
             {todo.id 
-              ? <div onClick={e => {e.preventDefault(); handleDelete({...todo})}}>
+              ? <div onClick={e => {e.preventDefault(); handleDelete({...todo})}} className="menu-icon">
                   <IconContext.Provider value={{className: "menu-icon-logo"}}> 
                     <FiTrash />
                   </IconContext.Provider>
                 </div> 
-              : <div onClick={e => sumbitForm(e)}>
+              : <div onClick={e => sumbitForm(e)} className="menu-icon">
                   <IconContext.Provider value={{className: "menu-icon-logo"}}> 
                     <FiSave />
                   </IconContext.Provider>

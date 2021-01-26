@@ -37,14 +37,15 @@ const CategoryEditor: React.FC<
           <input value={category.name} onChange={handleUpdateText}></input>
           <ColorPicker handleUpdateCategory={handleUpdateCategory} color={category.color ? category.color : ''} category={category}/>
           {category.id 
-            ? <div onClick={e => handleDeleteCategory(category)}>
+            ? <div onClick={e => handleDeleteCategory(category)} className="menu-icon">
                   <IconContext.Provider value={{className: "menu-icon-logo"}}> 
                     <FiTrash />
                   </IconContext.Provider>
               </div>
             : <div onClick={() => {handleCreateCategory(newCategory.name, newCategory.color)
                                       setShowNew(false) 
-                                      setNewCategory({name: '', color: ''})}}>
+                                      setNewCategory({name: '', color: ''})}}
+                   className="menu-icon">
                   <IconContext.Provider value={{className: "menu-icon-logo"}}> 
                     <FiSave/>
                   </IconContext.Provider>

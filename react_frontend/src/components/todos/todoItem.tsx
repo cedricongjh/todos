@@ -7,9 +7,10 @@ const TodoItem: React.FC<
    handleUpdate: ((todo: any, property: string, newValue: any) => void), 
    handleDelete: ((payload: any) => void), 
    createCategory: ((name: string, todo: any) => void), 
-   categories: any[]}> = 
+   categories: any[],
+   index: number}> = 
 
-    ({todo, handleSubmit, handleUpdate, handleDelete, createCategory, categories}) => {
+    ({todo, handleSubmit, handleUpdate, handleDelete, createCategory, categories, index}) => {
 
     const [edit, setEdit] = useState<Boolean>(false)
 
@@ -27,6 +28,7 @@ const TodoItem: React.FC<
         handleUpdate={handleUpdate}
         handleDelete={handleDelete}
         createCategory={createCategory}
+        index={index}
       /> 
     </div>
     )

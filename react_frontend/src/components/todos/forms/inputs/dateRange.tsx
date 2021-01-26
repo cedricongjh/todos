@@ -2,6 +2,9 @@ import React from 'react'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
 import { dateConverter } from '../../../../utils/dateHandling'
 
+import { IconContext } from 'react-icons'
+import { FiSlash } from 'react-icons/fi'
+
 // this component was created using react-day-picker, look at their documentation for a detailed API.
 
 
@@ -66,21 +69,34 @@ const DateRange: React.FC<
         {rangeStyle}
       </style>
 
-      <DayPickerInput 
-        value={fromDate}
-        format={format} 
-        inputProps={{readOnly: true}}
-        placeholder={fromPlaceholder}
-        onDayChange={(day: Date) => {setOptions({...currentOptions, fromDate: day.toISOString().substring(0, 10)})}}
-        dayPickerProps={{modifiers: selectedModifiers, disabledDays: disabledfromDays}} />
+      <div className="date-range-container">
+        <div className="date-range-input-container">
+          <DayPickerInput 
+            value={fromDate}
+            format={format} 
+            inputProps={{readOnly: true}}
+            placeholder={fromPlaceholder}
+            onDayChange={(day: Date) => {setOptions({...currentOptions, fromDate: day.toISOString().substring(0, 10)})}}
+            dayPickerProps={{modifiers: selectedModifiers, disabledDays: disabledfromDays}} />
+        </div>
 
-      <DayPickerInput 
-        value={toDate}
-        format={format} 
-        inputProps={{readOnly: true}}
-        placeholder={toPlaceholder}
-        onDayChange={(day: Date) => {setOptions({...currentOptions, toDate:day.toISOString().substring(0, 10)})}}
-        dayPickerProps={{modifiers: selectedModifiers, disabledDays: disabledtoDays}} />
+        <div className="date-range-input-container">
+          <DayPickerInput 
+            value={toDate}
+            format={format} 
+            inputProps={{readOnly: true}}
+            placeholder={toPlaceholder}
+            onDayChange={(day: Date) => {setOptions({...currentOptions, toDate:day.toISOString().substring(0, 10)})}}
+            dayPickerProps={{modifiers: selectedModifiers, disabledDays: disabledtoDays}} />
+        </div>
+
+        <div onClick={() => {setOptions({...currentOptions, toDate: '', fromDate: ''})}} className="menu-icon filter-icon">
+          clear
+          <IconContext.Provider value={{className: "filter-button"}}> 
+            <FiSlash />
+          </IconContext.Provider>
+        </div>
+      </div>
         
     </div>
   )

@@ -18,7 +18,7 @@ interface Props {
 
 // styles object to style the react-select input (taken from react-select documentation)
 const colourStyles: StylesConfig<any, false> = {
-  control: styles => ({ ...styles, backgroundColor: 'white' }),
+  control: styles => ({ ...styles, backgroundColor: 'inherit' }),
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
     let color;
     if (data.color) {
