@@ -12,15 +12,6 @@ import useLocalStorage from '../../utils/useLocalStorage'
 import { dateConverter } from '../../utils/dateHandling'
 import { Todo, Category } from '../../interfaces/todo.interfaces'
 
-
-type optionsForm = {
-  completed: boolean,
-  categories: any[],
-  fromDate: string,
-  toDate: string,
-  searchStr: string
-}
-
 const TodoControl: React.FC<
     {todos: Todo[]
      categories: Category[]
@@ -139,7 +130,8 @@ const TodoControl: React.FC<
     const [showSettings, setShowSettings] = useState(false)
 
     return(
-      // menu component
+      <div>
+      {/* menu component */}
       <div className="menu">
         <div className="menu-header">
           <h2>Hello, welcome to your todo list</h2>
@@ -167,46 +159,6 @@ const TodoControl: React.FC<
         </div>
 
       </div>
-
-        {/* filter options component */}
-        {showFilter ? 
-        <div>
-          <div>
-              <label>Hide completed</label>
-              <input type="checkbox"
-                    className="switch" 
-                    checked={options.completed} 
-                    onChange={e => setOptions({...options, completed: e.target.checked   })}/>
-          </div>
-          <div>
-              <label>Category</label>
-              <MultiCategorySelector
-                  placeholder='Select categories to show' 
-                  options={categoryOptions} 
-                  value={options.categories}
-                  selected={options.categories ? categoryOptions.filter(category => options.categories.includes(category.value)) : []}
-                  handleChange={(value: any) => {value && value.length > 0 
-                                                  ? setOptions({...options, categories: value.map((category: any) => {return category.value})}) 
-                                                  : setOptions({...options, categories: []})}}/>
-          </div>
-          <div>
-              <label>Date range</label>
-              <DateRange 
-                toDate={options.toDate} 
-                fromDate={options.fromDate}
-                fromPlaceholder={'From'}
-                toPlaceholder={'To'}
-                format={'YYYY-MM-DD'}
-                currentOptions={options}
-                setOptions={setOptions} />
-          </div>
-
-          <div>
-            <label>Search</label>
-            <input value={options.searchStr}
-                  onChange={e => setOptions({...options, searchStr: e.target.value})}/>
-          </div>
-        </div> : null}
 
         {/* settings component */}
         {showSettings ?
@@ -251,6 +203,47 @@ const TodoControl: React.FC<
         </div> :
         null}
 
+      </div>
+
+              {/* filter options component */}
+              {showFilter ? 
+                <div>
+                  <div>
+                      <label>Hide completed</label>
+                      <input type="checkbox"
+                            className="switch" 
+                            checked={options.completed} 
+                            onChange={e => setOptions({...options, completed: e.target.checked   })}/>
+                  </div>
+                  <div>
+                      <label>Category</label>
+                      <MultiCategorySelector
+                          placeholder='Select categories to show' 
+                          options={categoryOptions} 
+                          value={options.categories}
+                          selected={options.categories ? categoryOptions.filter(category => options.categories.includes(category.value)) : []}
+                          handleChange={(value: any) => {value && value.length > 0 
+                                                          ? setOptions({...options, categories: value.map((category: any) => {return category.value})}) 
+                                                          : setOptions({...options, categories: []})}}/>
+                  </div>
+                  <div>
+                      <label>Date range</label>
+                      <DateRange 
+                        toDate={options.toDate} 
+                        fromDate={options.fromDate}
+                        fromPlaceholder={'From'}
+                        toPlaceholder={'To'}
+                        format={'YYYY-MM-DD'}
+                        currentOptions={options}
+                        setOptions={setOptions} />
+                  </div>
+        
+                  <div>
+                    <label>Search</label>
+                    <input value={options.searchStr}
+                          onChange={e => setOptions({...options, searchStr: e.target.value})}/>
+                  </div>
+                </div> : null}
       </div>
     ) 
 
