@@ -59,7 +59,7 @@ const TodoForm: React.FC<{
                                 debouncedUpdate({...todo, 'completed': e.target.checked})}}/>
 
               <TextareaAutosize
-                placeholder={todo.id ? "" : "Enter a todo here"}
+                placeholder={todo.id ? "" : "Enter a to-do here"}
                 className="todo-list-text-input"
                 value={text}
                 ref={textInput} 

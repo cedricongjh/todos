@@ -136,7 +136,7 @@ const TodoControl: React.FC<
         {/* menu component */}
         <div className="menu">
           <div className="menu-header">
-            <h2>Hello, welcome to your todo list</h2>
+            <h2>Welcome to your to-do list</h2>
             <div className="menu-search-bar">
               <IconContext.Provider value={{ className: "menu-search-icon" }} >
                 <FiSearch />
