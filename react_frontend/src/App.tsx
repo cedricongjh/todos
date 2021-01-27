@@ -14,6 +14,9 @@ const App: React.FC = () => {
     }
     return Promise.reject(err)
   })
+
+  axios.defaults.baseURL = process.env.REACT_APP_BASE_URL
+  axios.defaults.withCredentials = true
   
   useEffect(() => {
     setLoading(true)
