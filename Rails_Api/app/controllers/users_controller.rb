@@ -5,7 +5,7 @@ class UsersController < ApplicationController
         @user = User.create(user_params)
         if @user.save
             token = encode_JWT({user_id: @user.id})
-            cookies.signed[:Authorized] = {value: token, httponly: true, same_site: :none, secure: true}
+            cookies.signed[:Authorized] = {value: token, httponly: true}
             render json: {status: 'SUCCESS', message: 'user signed up', data: @user}, status: :ok
         else
             render json: {status: 'ERROR', message: 'failed to sign up', data: @user.errors}, status: :unprocessable_entity
@@ -31,7 +31,7 @@ class UsersController < ApplicationController
         
         if @user && @user.authenticate(params[:password])
             token = encode_JWT({user_id: @user.id})
-            cookies.signed[:Authorized] = {value: token, httponly: true, same_site: :none, secure: true}
+            cookies.signed[:Authorized] = {value: token, httponly: true}
             render json: {status: 'SUCCESS', message: 'user logged in', data: @user}, status: :ok
         else
             render json: {status: 'ERROR', message: 'failed to log in', data: []}, status: :unprocessable_entity
