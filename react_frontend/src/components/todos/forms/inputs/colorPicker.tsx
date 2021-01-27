@@ -1,6 +1,5 @@
 import axios from 'axios'
-import { debounce } from 'lodash'
-import React, { useState, useCallback } from 'react'
+import React, { useState } from 'react'
 import { SwatchesPicker } from 'react-color'
 import { Category } from '../../../../interfaces/todo.interfaces'
 
