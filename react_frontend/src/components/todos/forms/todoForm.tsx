@@ -19,12 +19,11 @@ const TodoForm: React.FC<{
   createCategory: ((name: string, todo: any)=> void), 
   categories: Category[], 
   todo: Todo, 
-  handleUpdate: ((todo: Todo, property: string, newValue: any) => void), 
-  setEdit: any
+  handleUpdate: ((todo: Todo, property: string, newValue: any) => void)
   setSaving: React.Dispatch<React.SetStateAction<boolean>>
   index: number}> =
  
-    ({handleSubmit, handleDelete, createCategory, categories, todo, handleUpdate, setEdit, setSaving, index}) => {
+    ({handleSubmit, handleDelete, createCategory, categories, todo, handleUpdate, setSaving, index}) => {
 
     const categoryOptions = categories.map((category: any) => {return {value: category.id, label: category.name, color: category.color}})
 
@@ -42,9 +41,6 @@ const TodoForm: React.FC<{
       if (todo.id) {
         setSaving(true)
         axios.put(`/todos/${todo.id}`, todo).then((resp: any) => {
-          if (!(textInput.current === document.activeElement)) {
-            setEdit(false)
-          }
         }).finally(() => {setSaving(false)})
       }
     }, 1000), [])

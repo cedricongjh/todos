@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import axios, { AxiosResponse }  from 'axios'
 
 import TodoControl from './todoControl'
-import TodoItem from './todoItem'
 import TodoForm from './forms/todoForm'
 
 import BeatLoader from "react-spinners/BeatLoader"
@@ -167,7 +166,7 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
       handleLogout={logout} />
   
     {!fetching ? displayedTodos.map((todo, index) => 
-    <TodoItem
+    <TodoForm
       key={todo.id || ''} 
       todo={todo}
       index={index}
@@ -193,8 +192,7 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
       categories={categories} 
       todo={formtodo}
       setSaving={setSaving}
-      index={displayedTodos.length} 
-      setEdit={null} /> : null}
+      index={displayedTodos.length} /> : null}
 
   </div>
   )
