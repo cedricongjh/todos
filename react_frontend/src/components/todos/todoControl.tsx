@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 
 import ControlMenu from './controlComponents/controlMenu'
+import ControlFilter from './controlComponents/controlFilter'
 import ControlSettings from './controlComponents/controlSettings'
 
 import useLocalStorage from '../../utils/useLocalStorage'
 import { dateConverter } from '../../utils/dateHandling'
 import { Todo, Category } from '../../interfaces/todo.interfaces'
-import ControlFilter from './controlComponents/controlFilter'
 
 const TodoControl: React.FC<
   {
