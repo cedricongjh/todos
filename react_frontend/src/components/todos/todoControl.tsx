@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react'
 
-import { IconContext } from 'react-icons'
-import { FiFilter, FiSettings, FiLogOut, FiSearch, FiSlash, FiX, FiMinusCircle, FiPlusCircle, FiCheckSquare, FiRefreshCw } from 'react-icons/fi'
-
-import Select from 'react-select'
-import DateRange from './forms/inputs/dateRange'
-import MultiCategorySelector from './forms/inputs/multiCategorySelector'
-import CategoryEditor from './forms/inputs/categoryEditor'
+import ControlMenu from './controlComponents/controlMenu'
+import ControlSettings from './controlComponents/controlSettings'
 
 import useLocalStorage from '../../utils/useLocalStorage'
 import { dateConverter } from '../../utils/dateHandling'
 import { Todo, Category } from '../../interfaces/todo.interfaces'
+import ControlFilter from './controlComponents/controlFilter'
 
 const TodoControl: React.FC<
   {
@@ -34,6 +30,7 @@ const TodoControl: React.FC<
 
     const categoryOptions = categories.map((category: any) => { return { value: category.id, label: category.name, color: category.color } })
 
+    // filter todos based on options form
     useEffect(() => {
 
       let newTodos = todos.filter(todo => {
@@ -122,10 +119,6 @@ const TodoControl: React.FC<
 
     }, [filter, options.completed, options.categories, options.toDate, options.fromDate, options.searchStr, todos, setDisplayedTodos])
 
-    // hooks for adding categories
-    const [showNew, setShowNew] = useState(false)
-    const [newCategory, setNewCategory] = useState<Category>({ name: '', color: '' })
-
     // hooks for toggling filters
     const [showFilter, setShowFilter] = useState(false)
 
@@ -134,178 +127,36 @@ const TodoControl: React.FC<
 
     return (
       <div>
-        {/* menu component */}
-        <div className="menu">
-          <div className="menu-header">
-            <div className="menu-header-container">
-              <h2 style={{marginRight: '5px'}}>Welcome to your to-do list</h2>
-              {saving 
-                ? <IconContext.Provider value={{ className: "menu-search-icon menu-refresh-icon" }} >
-                    <FiRefreshCw />
-                  </IconContext.Provider>
-                : <IconContext.Provider value={{ className: "menu-search-icon" }} >
-                    <FiCheckSquare/>
-                  </IconContext.Provider>}
-            </div>
-            <div className="menu-search-bar">
-              <IconContext.Provider value={{ className: "menu-search-icon" }} >
-                <FiSearch />
-              </IconContext.Provider>
-              <input value={options.searchStr}
-                onChange={e => setOptions({ ...options, searchStr: e.target.value })}
-                placeholder="Type to search" />
-            </div>
-          </div>
 
-          <div className="menu-icons">
-            <div onClick={() => { setShowFilter(!showFilter) }} className="menu-icon menu-icon-top">
-              Filters
-              <IconContext.Provider value={{ className: "menu-icon-logo" }}>
-                <FiFilter />
-              </IconContext.Provider>
-            </div>
+        <ControlMenu
+          saving={saving}
+          options={options}
+          setOptions={setOptions}
+          showFilter={showFilter}
+          setShowFilter={setShowFilter}
+          showSettings={showSettings}
+          setShowSettings={setShowSettings}
+          handleLogout={handleLogout}
+        />
 
-            <div onClick={() => { setShowSettings(!showSettings) }} className="menu-icon menu-icon-top">
-              Settings
-              <IconContext.Provider value={{ className: "menu-icon-logo" }}>
-                <FiSettings />
-              </IconContext.Provider>
-            </div>
+        {showSettings ?
+          <ControlSettings
+            categories={categories}
+            handleCreateCategory={handleCreateCategory}
+            handleUpdateCategory={handleUpdateCategory}
+            handleDeleteCategory={handleDeleteCategory}
+            handleChangeSortOrder={handleChangeSortOrder}
+            setShowSettings={setShowSettings}
+            dateOrder={dateOrder}
+          /> : null}
 
-            <div onClick={handleLogout} className="menu-icon menu-icon-top">
-              Logout
-              <IconContext.Provider value={{ className: "menu-icon-logo" }} >
-                <FiLogOut />
-              </IconContext.Provider>
-            </div>
-
-          </div>
-
-          {/* settings component */}
-          {showSettings ?
-            <div className="settings-modal">
-              <div className="settings-content">
-
-                <div className="settings-header">
-                  <h3>Settings</h3>
-                  <div onClick={e => {setShowSettings(false)}} className="menu-icon filter-icon">
-                      Dismiss
-                      <IconContext.Provider value={{ className: "menu-icon-logo" }} >
-                        <FiX />
-                      </IconContext.Provider>
-                  </div>
-                </div>
-
-                <h4>Categories: </h4>
-
-                {categories.map(category => {
-                  return (<CategoryEditor
-                    category={category}
-                    handleUpdateCategory={handleUpdateCategory}
-                    handleCreateCategory={handleCreateCategory}
-                    handleDeleteCategory={handleDeleteCategory}
-                    newCategory={newCategory}
-                    setShowNew={setShowNew}
-                    setNewCategory={setNewCategory}
-                  />)
-                })}
-
-                {showNew 
-                ? <div>
-                    <div onClick={() => setShowNew(false)} className="menu-icon">
-                      <IconContext.Provider value={{ className: "menu-icon-logo" }}>
-                        <FiMinusCircle />
-                      </IconContext.Provider>
-                    </div>
-
-                    <CategoryEditor
-                      category={newCategory}
-                      handleUpdateCategory={setNewCategory}
-                      handleCreateCategory={handleCreateCategory}
-                      handleDeleteCategory={handleDeleteCategory}
-                      newCategory={newCategory}
-                      setShowNew={setShowNew}
-                      setNewCategory={setNewCategory} />
-                  </div>
-                : <div onClick={() => setShowNew(true)} className="menu-icon">
-                    <IconContext.Provider value={{ className: "menu-icon-logo" }}>
-                      <FiPlusCircle />
-                    </IconContext.Provider>
-                  </div>}
-
-                <h4>Date: </h4>
-
-                <label htmlFor="sortingOrder">Sorting order:</label>
-                <Select isClearable={false}
-                  name="sortingOrder"
-                  options={[{ label: "Earliest date first", value: 1 }, { label: "Latest date first", value: 0 }]}
-                  value={dateOrder ? { label: "Earliest date first", value: 1 } : { label: "Latest date first", value: 0 }}
-                  onChange={value => value?.value ? handleChangeSortOrder(true) : handleChangeSortOrder(false)} />
-              </div>
-            </div> :
-            null}
-
-        </div>
-
-        {/* filter options component */}
-        {showFilter ?
-          <div className="filter-container">
-
-            <div className="filter-first-row-container">
-              <div className="filter-completed-container">
-
-                <div className="filter-hide-completed-container">
-                  <label className="filter-hide-completed-label">Hide completed</label>
-                  <input type="checkbox"
-                    className="switch"
-                    checked={options.completed}
-                    onChange={e => setOptions({ ...options, completed: e.target.checked })} />
-                </div>
-
-              </div>
-
-              <div className="filter-buttons-container">
-                <div onClick={() => { setOptions({ ...options, categories: [], fromDate: '', toDate: '' }) }} className="menu-icon filter-icon">
-                  Clear all
-                  <IconContext.Provider value={{ className: "filter-button" }}>
-                    <FiSlash />
-                  </IconContext.Provider>
-                </div>
-                <div onClick={() => { setShowFilter(false) }} className="menu-icon filter-icon">
-                  Close
-                  <IconContext.Provider value={{ className: "filter-button" }}>
-                    <FiX />
-                  </IconContext.Provider>
-                </div>
-              </div>
-
-            </div>
-
-            <div>
-              <label>Category</label>
-              <MultiCategorySelector
-                placeholder='Select categories to show'
-                options={categoryOptions}
-                value={options.categories}
-                selected={options.categories ? categoryOptions.filter(category => options.categories.includes(category.value)) : []}
-                handleChange={(value: any) => {
-                  value && value.length > 0
-                  ? setOptions({ ...options, categories: value.map((category: any) => { return category.value }) })
-                  : setOptions({ ...options, categories: [] })
-                }} />
-            </div>
-            <div className="filter-date-range-container">
-              <label>Date range</label>
-              <DateRange
-                toDate={options.toDate}
-                fromDate={options.fromDate}
-                fromPlaceholder={'From'}
-                toPlaceholder={'To'}
-                format={'YYYY-MM-DD'}
-                currentOptions={options}
-                setOptions={setOptions} />
-            </div>
-          </div> : null}
+        {showFilter ? 
+          <ControlFilter
+            options={options}
+            setOptions={setOptions}
+            setShowFilter={setShowFilter}
+            categoryOptions={categoryOptions} 
+          /> : null}
       </div>
     )
 
