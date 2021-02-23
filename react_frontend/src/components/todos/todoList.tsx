@@ -9,6 +9,7 @@ import BeatLoader from "react-spinners/BeatLoader"
 
 import { insertTodo } from '../../utils/dateHandling'
 import { Todo, Category } from '../../interfaces/todo.interfaces'
+import { SSL_OP_COOKIE_EXCHANGE } from 'constants'
 
 
 const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>}> = 
@@ -145,6 +146,7 @@ const TodoList: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
   const logout = () => {
       axios.post('logout').then((resp: AxiosResponse<any>) => {
         localStorage.removeItem('filterSettings')
+        document.cookie = "Authorized=; expires=Thu, 01 Jan 1970 00:00:00 UTC;"
         setLoggedIn(false)
       })
   }
