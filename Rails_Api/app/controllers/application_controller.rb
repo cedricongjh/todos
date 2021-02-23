@@ -7,14 +7,14 @@ class ApplicationController < ActionController::API
     end
 
     def auth_header
-        cookies[:Authorized]
+        request.authorization
     end
 
     def decode_JWT
         if auth_header
             token = auth_header
             begin
-              JWT.decode(token, Rails.application.credentials.secret_key_base, true, algorithm: 'HS256')
+              JWT.decode(token, Rails.application.credentials.secret_key_base, false, algorithm: 'HS256')
             rescue JWT::DecodeError
                 nil
             end

@@ -52,7 +52,6 @@ class UsersController < ApplicationController
     end
 
     def logout
-        cookies.delete :Authorized
         render json: {status: 'SUCCESS', message: 'user logged out', data: @user}, status: :ok
     end
 
