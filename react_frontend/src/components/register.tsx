@@ -61,6 +61,7 @@ const Register: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boole
         setFocus({'email': true, 'password': true, 'confirmPassword': true})
         axios.post('/users', {...form, date_sort_ascending: true}).then(resp => {
             if (resp.data.status === "SUCCESS") {
+                document.cookie = `Authorized=${resp.data.cookie}`
                 setLoggedIn(true)
             }
             setLoading(false)

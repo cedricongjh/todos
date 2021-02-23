@@ -26,7 +26,7 @@ const Login: React.FC<{setLoggedIn: React.Dispatch<React.SetStateAction<boolean>
         axios.post('/login', {...form}).then(resp => {
             setLoading(false)
             if (resp.data.status === "SUCCESS") {
-                document.cookie = `Authorized=${resp.data.cookie}`;
+                document.cookie = `Authorized=${resp.data.cookie}`
                 setLoggedIn(true)
             }
         }).catch((reason: any) => {

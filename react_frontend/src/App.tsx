@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 import './App.css'
 import axios from 'axios'
+import Cookies from 'js-cookie'
 import TodoList from './components/todos/todoList'
 import Login from './components/login'
 import Register from './components/register'
@@ -15,8 +16,14 @@ const App: React.FC = () => {
     return Promise.reject(err)
   })
 
+  axios.interceptors.request.use(function (config) {
+    const token = Cookies.get('Authorized')
+    config.headers.Authorization = token
+    return config
+  })
+
   axios.defaults.baseURL = process.env.REACT_APP_BASE_URL
-  axios.defaults.withCredentials = true
+  // axios.defaults.withCredentials = true
   
   useEffect(() => {
     setLoading(true)
