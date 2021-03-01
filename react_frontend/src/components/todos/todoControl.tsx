@@ -26,7 +26,7 @@ const TodoControl: React.FC<
 
   ({ todos, categories, filter, dateOrder, saving, setDisplayedTodos, handleUpdateCategory, handleCreateCategory, handleDeleteCategory, handleChangeSortOrder, handleLogout }) => {
 
-    const [options, setOptions] = useLocalStorage('filterSettings', { completed: true, categories: [], fromDate: '', toDate: '', searchStr: '' })
+    const [options, setOptions] = useLocalStorage('filterSettings', { completed: true, categories: [], fromDate: '', toDate: '', searchStr: '', hideNoDate: false })
 
     const categoryOptions = categories.map((category: any) => { return { value: category.id, label: category.name, color: category.color } })
 
@@ -35,7 +35,7 @@ const TodoControl: React.FC<
 
       setDisplayedTodos(filterTodos(todos, options))
 
-    }, [filter, options.completed, options.categories, options.toDate, options.fromDate, options.searchStr, todos, setDisplayedTodos])
+    }, [filter, options, todos, setDisplayedTodos])
 
     // hooks for toggling filters
     const [showFilter, setShowFilter] = useState(false)

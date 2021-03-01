@@ -135,6 +135,16 @@ code {
   width: 25px;
 }
 
+.filter-hide-no-date-container {
+  padding-top: 0.5em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.filter-hide-no-date-label {
+  padding-right: 2.5px;
+}
 
 // styling for settings
 .settings-modal {

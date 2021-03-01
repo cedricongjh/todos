@@ -78,6 +78,14 @@ const ControlFilter: React.FC<
         setOptions={setOptions} />
     </div>
 
+    <div className="filter-hide-no-date-container">
+          <label className="filter-hide-no-date-label">Hide blank dates</label>
+          <input type="checkbox"
+            className="switch"
+            checked={options.hideNoDate}
+            onChange={e => setOptions({ ...options, hideNoDate: e.target.checked })} />
+    </div>
+
   </div>
   )
 

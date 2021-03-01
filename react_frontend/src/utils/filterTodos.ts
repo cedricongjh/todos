@@ -83,5 +83,23 @@ export const filterTodos = (todos: any, options: any) => {
           return true
         }
       })
+
+      newTodos = newTodos.filter((todo: { id: any; due: any }) => {
+        if (!todo.id) {
+          return true
+        }
+
+        if (options.hideNoDate) {
+          if (!todo.due || todo.due === '') {
+            return false
+          } else {
+            return true
+          }
+        } else {
+          return true
+        }
+      })
+
+
       return newTodos
 }
