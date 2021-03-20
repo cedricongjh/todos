@@ -9,18 +9,23 @@ export const insertTodo = (todos: any[], todo: any, ascending: boolean) => {
     let insertedIdx = 0
     let res = [...todos]
 
-    if (todo && todo.due) {
-        while (res[insertedIdx] && !res[insertedIdx].due) {
-            insertedIdx++
-        }
-        if (ascending) {
-            while (res[insertedIdx] && res[insertedIdx].due &&  dateConverter(todo.due) >= dateConverter(res[insertedIdx].due)) {
+    if (todo) {
+
+        if (todo.due) {
+            while (res[insertedIdx] && !res[insertedIdx].due) {
                 insertedIdx++
+            }
+            if (ascending) {
+                while (res[insertedIdx] && res[insertedIdx].due &&  dateConverter(todo.due) >= dateConverter(res[insertedIdx].due)) {
+                    insertedIdx++
+                }
+            } else {
+                while (res[insertedIdx] && res[insertedIdx].due &&  dateConverter(todo.due) <= dateConverter(res[insertedIdx].due)) {
+                    insertedIdx++
+                }
             }
         } else {
-            while (res[insertedIdx] && res[insertedIdx].due &&  dateConverter(todo.due) <= dateConverter(res[insertedIdx].due)) {
-                insertedIdx++
-            }
+            insertedIdx = res.length    
         }
     }
 
