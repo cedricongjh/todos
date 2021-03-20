@@ -81,12 +81,18 @@ const TodoForm: React.FC<{
 
             <div className="todo-list-date-group">
             <DayPickerInput 
-              value={todo.due}
+              value={todo.due ? todo.due : ''}
               format="YYYY-MM-DD" 
               placeholder="Select a date"
+              clickUnselectsDay={true}
               inputProps={{readOnly: true}} 
-              onDayChange={(day: Date) => {handleUpdate({...todo}, 'due', day.toISOString().substring(0, 10))
-                                          debouncedUpdate({...todo, 'due': day.toISOString().substring(0, 10)})}}/>
+              onDayChange={(day: Date) => {if (day) {
+                                            handleUpdate({...todo}, 'due', day.toISOString().substring(0, 10));
+                                            debouncedUpdate({...todo, 'due': day.toISOString().substring(0, 10)});
+                                          } else {
+                                            handleUpdate({...todo}, 'due', null);
+                                            debouncedUpdate({...todo, 'due': null});
+                                          }}}/>
 
             {todo.id 
               ? <div onClick={e => {e.preventDefault(); handleDelete({...todo})}} className="menu-icon">
