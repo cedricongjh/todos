@@ -2,7 +2,7 @@ export interface Todo {
     text: string
     id?: number
     category_id?: number
-    due?: string
+    due?: string | null
     completed: boolean
 }
   
