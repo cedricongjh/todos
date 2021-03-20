@@ -14,6 +14,7 @@ Matriculation number: A0215108R
 1. Google Chrome 	:heavy_check_mark:
 2. Firefox 	:heavy_check_mark:
 3. Mircosoft Edge :heavy_check_mark:
+4. Safari :heavy_check_mark:
 
 
 # Running on your local machine
