@@ -38,7 +38,7 @@ class TodosController < ApplicationController
     private
 
     def todo_params
-        params.permit(:text, :category_id, :due, :completed, :priority)
+        params.permit(:text, :category_id, :due, :completed, :array_id)
     end
 
 end
