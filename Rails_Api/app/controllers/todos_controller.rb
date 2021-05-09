@@ -35,6 +35,19 @@ class TodosController < ApplicationController
         end
     end
 
+    # todo: try to use upsert instead or any better bulk update method
+    def update_order
+        idx = 0
+        params[:array_ids].each do |i|
+            todo = @user.todos.find(i)
+            todo.update({"array_id" => idx})
+            idx += 1
+        end
+
+        render json: {status: 'SUCCESS', message: 'todo ordering updated', data: @user.todos.order('array_id ASC')}, status: :ok
+
+    end
+
     private
 
     def todo_params
