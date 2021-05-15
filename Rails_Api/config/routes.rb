@@ -2,8 +2,6 @@ Rails.application.routes.draw do
 
   resources :todos, :categories
 
-  post '/todo_ordering', to: "todos#update_order"
-
   resource :users, only: [:create]
   post '/login', to: "users#login"
   post '/logout', to: "users#logout"
