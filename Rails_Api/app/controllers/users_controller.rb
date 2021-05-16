@@ -63,7 +63,7 @@ class UsersController < ApplicationController
     end
 
     def user_data_params
-        params.permit(:date_sort_ascending)
+        params.permit(:date_sort_ascending, :priority)
     end
 
 end
