@@ -22,7 +22,16 @@ class UsersController < ApplicationController
             end
             categories = @user.categories.all
             priorities = @user.priorities.all
-            render json: {status: 'SUCCESS', message: 'fetched user data', data: {todos: todos, categories: categories, priorities: priorities, date_sort_ascending: @user.date_sort_ascending}}, status: :ok
+            render json: {
+                status: 'SUCCESS', message: 'fetched user data', 
+                data: {
+                    todos: todos, 
+                    categories: categories, 
+                    priorities: priorities, 
+                    date_sort_ascending: @user.date_sort_ascending
+                    priority: @user.priority
+                }
+            }, status: :ok
         end
     end
 
