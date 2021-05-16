@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  resources :todos, :categories
+  resources :todos, :categories, :priorities
 
   resource :users, only: [:create]
   post '/login', to: "users#login"
