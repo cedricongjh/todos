@@ -21,7 +21,8 @@ class UsersController < ApplicationController
                 todos = @user.todos.order('due DESC')
             end
             categories = @user.categories.all
-            render json: {status: 'SUCCESS', message: 'fetched user data', data: {todos: todos, categories: categories, date_sort_ascending: @user.date_sort_ascending}}, status: :ok
+            priorities = @user.priorities.all
+            render json: {status: 'SUCCESS', message: 'fetched user data', data: {todos: todos, categories: categories, priorities: priorities, date_sort_ascending: @user.date_sort_ascending}}, status: :ok
         end
     end
 
